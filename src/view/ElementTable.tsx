@@ -58,6 +58,7 @@ export const ElementTable: React.FC<ElementTableProps> = (props) => {
             onMouseDown={() => onEditOpen(row.id)}
             onKeyDown={(e) => executeOnKeyboardClick(e.key, () => onEditOpen(row.id))}
             size="small"
+            data-testid={`button-edit-${contentSingular}-${row.id}`}
           >
             <Tooltip title={t('manipulation.table.editLabel', { type: contentSingular })}>
               <EditIcon />
@@ -67,6 +68,7 @@ export const ElementTable: React.FC<ElementTableProps> = (props) => {
             onMouseDown={() => onDelete(row.id)}
             onKeyDown={(e) => executeOnKeyboardClick(e.key, () => onDelete(row.id))}
             size="small"
+            data-testid={`button-delete-${contentSingular}-${row.id}`}
           >
             <Tooltip title={t('manipulation.table.deleteLabel', { type: contentSingular })}>
               <DeleteIcon />
@@ -85,6 +87,7 @@ export const ElementTable: React.FC<ElementTableProps> = (props) => {
         variant="text"
         onMouseDown={toggleCollapse}
         onKeyDown={(e) => executeOnKeyboardClick(e.key, toggleCollapse)}
+        data-testid={'button-hide-' + contentSingular}
       >
         {collapseLabel}
       </Button>
@@ -97,12 +100,13 @@ export const ElementTable: React.FC<ElementTableProps> = (props) => {
               size="small"
               onMouseDown={onAddOpen}
               onKeyDown={(e) => executeOnKeyboardClick(e.key, onAddOpen)}
+              data-testid={'button-add-' + contentSingular}
             >
               {t('manipulation.table.addElement', { content: contentSingular })}
             </Button>
           </div>
           <TableContainer component={Paper}>
-            <Table size="small">
+            <Table size="small" data-testid={'table-' + contentSingular}>
               <TableHead>
                 <TableRow>
                   <TableCell style={styleActionsColumn}>{t('manipulation.table.actions')}</TableCell>
