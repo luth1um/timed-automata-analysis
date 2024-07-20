@@ -48,6 +48,7 @@
   "deleteClockConfirmDialog.button.confirm": "Löschen",
   "clockDialog.title.editClock": "Uhr bearbeiten",
   "clockDialog.title.addClock": "Uhr hinzufügen",
+  "clockDialog.input.name": "Name",
   "clockDialog.errorNameEmpty": "Name darf nicht leer sein",
   "clockDialog.errorNameExists": "Name wird bereits verwendet",
   "clockDialog.button.cancel": "Abbrechen",

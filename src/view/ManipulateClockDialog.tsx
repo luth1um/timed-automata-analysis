@@ -102,7 +102,7 @@ export const ManipulateClockDialog: React.FC<ManipulateClockDialogProps> = (prop
       <DialogContent>
         <TextField
           margin="dense"
-          label={'Name'}
+          label={t('clockDialog.input.name')}
           type="text"
           fullWidth
           variant="outlined"
