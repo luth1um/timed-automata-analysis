@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { TEST_BASE_URL } from './helper/endToEndTestConstants';
 
 ['Location', 'Switch', 'Clock'].forEach((elementType: string) => {
   test.describe('The initial page', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:5173/timed-automata-analysis/');
+      await page.goto(TEST_BASE_URL);
     });
 
     test(`displays a button for hiding the ${elementType.toLowerCase()} table when the page is loaded`, async ({

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { TEST_BASE_URL } from './e2e/helper/endToEndTestConstants';
 
 /**
  * Read environment variables from file.
@@ -72,7 +73,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'yarn start',
-    url: 'http://localhost:5173/timed-automata-analysis/',
+    url: TEST_BASE_URL,
     reuseExistingServer: !process.env.CI,
   },
 });

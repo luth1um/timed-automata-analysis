@@ -75,7 +75,7 @@ export const ElementTable: React.FC<ElementTableProps> = (props) => {
             </Tooltip>
           </IconButton>
         </TableCell>
-        <TableCell>{row.displayName}</TableCell>
+        <TableCell data-testid={`table-cell-${contentSingular}-${row.id}`}>{row.displayName}</TableCell>
       </TableRow>
     ));
   }, [rows, styleActionsColumn, contentSingular, t, onEditOpen, onDelete, executeOnKeyboardClick]);
