@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
 import { Clock } from '../../src/model/ta/clock';
+import { ClockConstraint } from '../../src/model/ta/clockConstraint';
 
 export class ClockUiHelper {
   readonly page: Page;
@@ -26,5 +27,19 @@ export class ClockUiHelper {
 
   async readNumberOfClocksFromUi(): Promise<number> {
     return (await this.readClocksFromUi()).length;
+  }
+
+  async addClocksIfNotPresent(clockNames: string[]): Promise<void> {
+    const presentClockNames = (await this.readClocksFromUi()).map((clock) => clock.name);
+    const clocksToAdd = clockNames.filter((clockName) => !presentClockNames.includes(clockName));
+    for (const clockName of clocksToAdd) {
+      await this.addClock(clockName);
+    }
+  }
+
+  async addClocksOfConstraintIfNotPresent(cc: ClockConstraint): Promise<void> {
+    const clockNames = cc.clauses.map((clause) => clause.lhs.name);
+    const uniqueClockNames = [...new Set(clockNames)];
+    await this.addClocksIfNotPresent(uniqueClockNames);
   }
 }

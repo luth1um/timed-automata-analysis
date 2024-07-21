@@ -35,7 +35,7 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
   } = viewModel;
   const { locations, switches, clocks } = ta;
   const { t } = useTranslation();
-  const { formatSwitchTable } = useFormattingUtils();
+  const { formatLocationLabelTable, formatSwitchTable } = useFormattingUtils();
   const { taUsesClockInAnyConstraint } = useClockConstraintUtils();
 
   const [locationAddOpen, setLocationAddOpen] = useState(false);
@@ -96,15 +96,15 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
         displayName = (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Tooltip title={t('manipulation.table.initLocLabel')}>
-              <Home fontSize="small" />
+              <Home fontSize="small" data-testid={'icon-is-initial-row-' + index} />
             </Tooltip>
             <Typography variant="body1" style={{ marginLeft: 4 }}>
-              {loc.name}
+              {formatLocationLabelTable(loc)}
             </Typography>
           </div>
         );
       } else {
-        displayName = loc.name;
+        displayName = formatLocationLabelTable(loc);
       }
       const rowData: ElementRowData = { id: index, displayName: displayName };
       return rowData;
@@ -119,7 +119,7 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
         onDelete={handleLocationDelete}
       />
     );
-  }, [locations, t, handleLocationEditOpen, handleLocationDelete]);
+  }, [locations, t, formatLocationLabelTable, handleLocationEditOpen, handleLocationDelete]);
 
   // ===== manipulate switches =================================================
 

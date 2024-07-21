@@ -313,8 +313,9 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
             onMouseDown={() => clausesViewModel.addClause(clausesViewModel)}
             onKeyDown={(e) => executeOnKeyboardClick(e.key, () => clausesViewModel.addClause(clausesViewModel))}
             sx={{ marginTop: 2 }}
+            data-testid={'button-add-clause'}
           >
-            {t('switchDialog.button.addClause')}
+            {t('clauses.button.addClause')}
           </Button>
         )}
         <Divider sx={{ my: 1 }} />
