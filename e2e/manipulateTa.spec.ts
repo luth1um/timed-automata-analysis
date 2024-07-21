@@ -1,6 +1,8 @@
 import { TEST_BASE_URL } from './helper/endToEndTestConstants';
 import { test } from './helper/testOptions';
 import { expect } from '@playwright/test';
+import { Clock } from '../src/model/ta/clock';
+import { clockFixtureWithClockName } from '../test/fixture/clockFixture';
 
 test.describe('While manipulating a TA', () => {
   test.beforeEach(async ({ page }) => {
@@ -9,16 +11,16 @@ test.describe('While manipulating a TA', () => {
 
   test('the TA contains the correct set of clocks when clocks are added', async ({ clockUiHelper }) => {
     // given
-    const clockName = 'myTestClock';
-    const initClockNumber = (await clockUiHelper.readClocksFromUi()).length;
+    const clock: Clock = clockFixtureWithClockName('myTestClock');
+    const initClockNumber = await clockUiHelper.readNumberOfClocksFromUi();
 
     // when
-    await clockUiHelper.addClock(clockName);
+    await clockUiHelper.addClock(clock.name);
 
     // then
     const clocks = await clockUiHelper.readClocksFromUi();
     expect(clocks.length, 'number of clocks should have increased by 1').toBe(initClockNumber + 1);
-    expect(clocks, 'freshly added clock should be in the list').toContainEqual({ name: clockName });
+    expect(clocks, 'freshly added clock should be in the list').toContainEqual(clock);
   });
 
   // TODO: add location works

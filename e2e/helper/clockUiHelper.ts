@@ -23,4 +23,8 @@ export class ClockUiHelper {
     }
     return clockNames.filter((clockName) => clockName !== null).map<Clock>((clockName) => ({ name: clockName }));
   }
+
+  async readNumberOfClocksFromUi(): Promise<number> {
+    return (await this.readClocksFromUi()).length;
+  }
 }
