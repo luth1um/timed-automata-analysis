@@ -10,16 +10,16 @@ export class ClockUiHelper {
   }
 
   async addClock(name: string): Promise<void> {
-    await this.page.getByTestId('button-add-Clock').click();
+    await this.page.getByTestId('button-add-clock').click();
     await this.page.getByTestId('input-clock-name').locator('input').fill(name);
     await this.page.getByTestId('button-add-clock-ok').click();
   }
 
   async readClocksFromUi(): Promise<Clock[]> {
-    const numberOfClocks = (await this.page.$$('[data-testid^="table-cell-Clock-"]')).length;
+    const numberOfClocks = (await this.page.$$('[data-testid^="table-cell-clock-"]')).length;
     const clockNames: (string | null)[] = [];
     for (let i = 0; i < numberOfClocks; i++) {
-      const clockName = await this.page.getByTestId(`table-cell-Clock-${i}`).textContent();
+      const clockName = await this.page.getByTestId(`table-cell-clock-${i}`).textContent();
       clockNames.push(clockName);
     }
     return clockNames.filter((clockName) => clockName !== null).map<Clock>((clockName) => ({ name: clockName }));

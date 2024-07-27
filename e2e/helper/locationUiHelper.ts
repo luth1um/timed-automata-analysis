@@ -28,7 +28,7 @@ export class LocationUiHelper {
       await this.clockUiHelper.addClocksOfConstraintIfNotPresent(location.invariant);
     }
 
-    await this.page.getByTestId('button-add-Location').click();
+    await this.page.getByTestId('button-add-location').click();
     await this.page.getByTestId('input-location-name').locator('input').fill(location.name);
 
     if (location.isInitial) {
@@ -48,10 +48,10 @@ export class LocationUiHelper {
   }
 
   async readLocationsFromUi(): Promise<Location[]> {
-    const numberOfLocs = (await this.page.$$('[data-testid^="table-cell-Location-"]')).length;
+    const numberOfLocs = (await this.page.$$('[data-testid^="table-cell-location-"]')).length;
     const locs: Location[] = [];
     for (let i = 0; i < numberOfLocs; i++) {
-      const locText = await this.page.getByTestId(`table-cell-Location-${i}`).textContent();
+      const locText = await this.page.getByTestId(`table-cell-location-${i}`).textContent();
 
       if (locText !== null) {
         const textParts = locText.split(', ');
