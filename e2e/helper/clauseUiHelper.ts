@@ -26,8 +26,9 @@ export class ClauseUiHelper {
 
   private async setNumberOfClauseRows(numberOfClauses: number): Promise<void> {
     // remove rows if there are more than needed
+    const allClauseDeleteButtons = await this.utilHelper.findAllElementsWithPartialTestId('button-delete-clause-row-');
     for (let i = await this.readNumberOfClausesFromUi(); i > numberOfClauses; i--) {
-      await this.page.getByTestId(`button-delete-clause-row-${i - 1}`).click();
+      await allClauseDeleteButtons[i - 1].click();
     }
     // add rows if there are less than needed
     for (let i = await this.readNumberOfClausesFromUi(); i < numberOfClauses; i++) {

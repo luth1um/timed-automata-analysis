@@ -35,7 +35,7 @@ test.describe('While manipulating locations', () => {
     const initLocNumber = await locationUiHelper.readNumberOfLocationsFromUi();
 
     // when
-    await locationUiHelper.deleteLocation(location.name);
+    await locationUiHelper.deleteLocationByName(location.name);
 
     // then
     expect(await locationUiHelper.readNumberOfLocationsFromUi(), 'number of locations should have decreased by 1').toBe(

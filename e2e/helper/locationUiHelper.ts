@@ -97,7 +97,7 @@ export class LocationUiHelper {
     }
   }
 
-  async deleteLocation(locationName: string): Promise<void> {
+  async deleteLocationByName(locationName: string): Promise<void> {
     const locations = await this.readLocationsFromUi();
     const index = locations.findIndex((loc) => loc.name === locationName);
     expect(index, `location ${locationName} should be present for removal`).toBeGreaterThanOrEqual(0);

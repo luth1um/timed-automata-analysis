@@ -7,6 +7,7 @@ import { ClockConstraint } from '../../src/model/ta/clockConstraint';
 import { Clock } from '../../src/model/ta/clock';
 import { ClockConstraintHelper } from './clockConstraintHelper';
 import { UtilHelper } from './utilHelper';
+import { expect } from '@playwright/test';
 
 export class SwitchUiHelper {
   readonly page: Page;
@@ -41,6 +42,28 @@ export class SwitchUiHelper {
     await this.locationUiHelper.addLocationsIfNotPresent([sw.source, sw.target]);
 
     await this.page.getByTestId('button-add-switch').click();
+    await this.fillDialogManipulateSwitch(sw);
+    await this.page.getByTestId('button-add-switch-ok').click();
+  }
+
+  async editSwitchByActionLabel(oldActionLabel: string, sw: Switch): Promise<void> {
+    // add needed clocks and locations before opening switch dialog
+    await this.clockUiHelper.addClocksOfConstraintsIfNotPresent([sw.guard, sw.source.invariant, sw.target.invariant]);
+    if (sw.reset.length > 0) {
+      await this.clockUiHelper.addClocksIfNotPresent(sw.reset.map((c) => c.name));
+    }
+    await this.locationUiHelper.addLocationsIfNotPresent([sw.source, sw.target]);
+
+    const switches = await this.readSwitchesFromUi();
+    const index = switches.findIndex((s) => s.actionLabel === oldActionLabel);
+    expect(index, `switch with action ${oldActionLabel} should be present for editing`).toBeGreaterThanOrEqual(0);
+
+    await this.page.getByTestId(`button-edit-switch-${index}`).click();
+    await this.fillDialogManipulateSwitch(sw);
+    await this.page.getByTestId('button-add-switch-ok').click();
+  }
+
+  private async fillDialogManipulateSwitch(sw: Switch): Promise<void> {
     await this.page.getByTestId('input-switch-action').locator('input').fill(sw.actionLabel);
 
     await this.page.getByTestId('select-switch-source').click();
@@ -57,15 +80,14 @@ export class SwitchUiHelper {
     }
 
     const resetClockNames = sw.reset.map((c) => c.name);
-    for (const clockName of resetClockNames) {
+    const allClockNames = (await this.clockUiHelper.readClocksFromUi()).map((c) => c.name);
+    for (const clockName of allClockNames) {
       if (resetClockNames.includes(clockName)) {
         await this.page.getByTestId('checkbox-switch-reset-' + clockName).check();
       } else {
         await this.page.getByTestId('checkbox-switch-reset-' + clockName).uncheck();
       }
     }
-
-    await this.page.getByTestId('button-add-switch-ok').click();
   }
 
   async readSwitchesFromUi(): Promise<Switch[]> {
@@ -107,5 +129,12 @@ export class SwitchUiHelper {
 
   async readNumberOfSwitchesFromUi(): Promise<number> {
     return (await this.readSwitchesFromUi()).length;
+  }
+
+  async deleteSwitchByActionLabel(actionLabel: string): Promise<void> {
+    const switches = await this.readSwitchesFromUi();
+    const index = switches.findIndex((s) => s.actionLabel === actionLabel);
+    expect(index, `switch with action ${actionLabel} should be present for deletion`).toBeGreaterThanOrEqual(0);
+    await this.page.getByTestId(`button-delete-switch-${index}`).click();
   }
 }
