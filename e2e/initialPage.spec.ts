@@ -11,7 +11,7 @@ import { TEST_BASE_URL } from './helper/endToEndTestConstants';
       await expect(page.getByTestId(`button-hide-${elementType}`)).toBeVisible();
     });
 
-    test(`displays a button for add a ${elementType} when the page is loaded`, async ({ page }) => {
+    test(`displays a button to add a ${elementType} when the page is loaded`, async ({ page }) => {
       await expect(page.getByTestId(`button-add-${elementType}`)).toBeVisible();
     });
 
