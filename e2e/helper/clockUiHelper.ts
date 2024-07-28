@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { Clock } from '../../src/model/ta/clock';
 import { ClockConstraint } from '../../src/model/ta/clockConstraint';
 import { UtilHelper } from './utilHelper';
+import { expect } from '@playwright/test';
 
 export class ClockUiHelper {
   readonly page: Page;
@@ -53,5 +54,27 @@ export class ClockUiHelper {
       .flat();
     const uniqueClockNames = [...new Set(clockNames)];
     await this.addClocksIfNotPresent(uniqueClockNames);
+  }
+
+  async removeClockByName(name: string): Promise<void> {
+    const clocks = await this.readClocksFromUi();
+    const index = clocks.findIndex((clock) => clock.name === name);
+    expect(index, `clock ${name} should be present for removal`).toBeGreaterThanOrEqual(0);
+    await this.page.getByTestId(`button-delete-clock-${index}`).click();
+
+    const deleteConfirmationRequired = await this.page.getByTestId('button-confirm-delete-clock').isVisible();
+    if (deleteConfirmationRequired) {
+      await this.page.getByTestId('button-confirm-delete-clock').click();
+    }
+  }
+
+  async editClockName(oldName: string, newName: string): Promise<void> {
+    const clocks = await this.readClocksFromUi();
+    const index = clocks.findIndex((clock) => clock.name === oldName);
+    expect(index, `clock ${oldName} should be present for editing`).toBeGreaterThanOrEqual(0);
+
+    await this.page.getByTestId(`button-edit-clock-${index}`).click();
+    await this.page.getByTestId('input-clock-name').locator('input').fill(newName);
+    await this.page.getByTestId('button-add-clock-ok').click();
   }
 }

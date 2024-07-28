@@ -24,7 +24,7 @@ export class ClauseUiHelper {
     }
   }
 
-  async setNumberOfClauseRows(numberOfClauses: number): Promise<void> {
+  private async setNumberOfClauseRows(numberOfClauses: number): Promise<void> {
     // remove rows if there are more than needed
     for (let i = await this.readNumberOfClausesFromUi(); i > numberOfClauses; i--) {
       await this.page.getByTestId(`button-delete-clause-row-${i - 1}`).click();
@@ -35,7 +35,7 @@ export class ClauseUiHelper {
     }
   }
 
-  async setClauseRowTo(clause: Clause, row: number): Promise<void> {
+  private async setClauseRowTo(clause: Clause, row: number): Promise<void> {
     (await this.page.getByTestId('select-clock-row').all())[row].click();
     await this.page.getByTestId(`menu-item-clock-${clause.lhs.name}`).click();
 

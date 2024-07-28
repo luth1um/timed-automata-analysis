@@ -4,6 +4,7 @@ import { ClockUiHelper } from './clockUiHelper';
 import { ClauseUiHelper } from './clauseUiHelper';
 import { ClockConstraintHelper } from './clockConstraintHelper';
 import { UtilHelper } from './utilHelper';
+import { expect } from '@playwright/test';
 
 export class LocationUiHelper {
   readonly page: Page;
@@ -33,6 +34,21 @@ export class LocationUiHelper {
     }
 
     await this.page.getByTestId('button-add-location').click();
+    await this.fillDialogManipulateLocation(location);
+    await this.page.getByTestId('button-add-location-ok').click();
+  }
+
+  async editLocation(oldLocName: string, location: Location): Promise<void> {
+    const locations = await this.readLocationsFromUi();
+    const index = locations.findIndex((loc) => loc.name === oldLocName);
+    expect(index, `location ${oldLocName} should be present for editing`).toBeGreaterThanOrEqual(0);
+
+    await this.page.getByTestId(`button-edit-location-${index}`).click();
+    await this.fillDialogManipulateLocation(location);
+    await this.page.getByTestId('button-add-location-ok').click();
+  }
+
+  private async fillDialogManipulateLocation(location: Location): Promise<void> {
     await this.page.getByTestId('input-location-name').locator('input').fill(location.name);
 
     if (location.isInitial) {
@@ -47,8 +63,6 @@ export class LocationUiHelper {
     } else {
       await this.page.getByTestId('checkbox-location-hasInvariant').uncheck();
     }
-
-    await this.page.getByTestId('button-add-location-ok').click();
   }
 
   async readLocationsFromUi(): Promise<Location[]> {
@@ -81,5 +95,12 @@ export class LocationUiHelper {
         await this.addLocation(loc);
       }
     }
+  }
+
+  async deleteLocation(locationName: string): Promise<void> {
+    const locations = await this.readLocationsFromUi();
+    const index = locations.findIndex((loc) => loc.name === locationName);
+    expect(index, `location ${locationName} should be present for removal`).toBeGreaterThanOrEqual(0);
+    await this.page.getByTestId(`button-delete-location-${index}`).click();
   }
 }
