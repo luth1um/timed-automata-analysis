@@ -5,11 +5,13 @@ import { ClauseUiHelper } from './clauseUiHelper';
 import { ClockConstraintHelper } from './clockConstraintHelper';
 import { SwitchUiHelper } from './switchUiHelper';
 import { UtilHelper } from './utilHelper';
+import { TaUiHelper } from './taUiHelper';
 
 export type TestOptions = {
   clockUiHelper: ClockUiHelper;
   locationUiHelper: LocationUiHelper;
   switchUiHelper: SwitchUiHelper;
+  taUiHelper: TaUiHelper;
 };
 
 export const test = base.extend<TestOptions>({
@@ -42,6 +44,35 @@ export const test = base.extend<TestOptions>({
           new ClockConstraintHelper(page)
         ),
         new ClockConstraintHelper(page)
+      )
+    );
+  },
+  taUiHelper: async ({ page }, use) => {
+    await use(
+      new TaUiHelper(
+        page,
+        new LocationUiHelper(
+          page,
+          new UtilHelper(page),
+          new ClockUiHelper(page, new UtilHelper(page)),
+          new ClauseUiHelper(page, new UtilHelper(page)),
+          new ClockConstraintHelper(page)
+        ),
+        new SwitchUiHelper(
+          page,
+          new UtilHelper(page),
+          new ClockUiHelper(page, new UtilHelper(page)),
+          new ClauseUiHelper(page, new UtilHelper(page)),
+          new LocationUiHelper(
+            page,
+            new UtilHelper(page),
+            new ClockUiHelper(page, new UtilHelper(page)),
+            new ClauseUiHelper(page, new UtilHelper(page)),
+            new ClockConstraintHelper(page)
+          ),
+          new ClockConstraintHelper(page)
+        ),
+        new ClockUiHelper(page, new UtilHelper(page))
       )
     );
   },

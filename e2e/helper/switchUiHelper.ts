@@ -58,9 +58,7 @@ export class SwitchUiHelper {
     const index = switches.findIndex((s) => s.actionLabel === oldActionLabel);
     expect(index, `switch with action ${oldActionLabel} should be present for editing`).toBeGreaterThanOrEqual(0);
 
-    await this.page.getByTestId(`button-edit-switch-${index}`).click();
-    await this.fillDialogManipulateSwitch(sw);
-    await this.page.getByTestId('button-add-switch-ok').click();
+    await this.editSwitchByIndex(index, sw);
   }
 
   private async fillDialogManipulateSwitch(sw: Switch): Promise<void> {
@@ -135,6 +133,34 @@ export class SwitchUiHelper {
     const switches = await this.readSwitchesFromUi();
     const index = switches.findIndex((s) => s.actionLabel === actionLabel);
     expect(index, `switch with action ${actionLabel} should be present for deletion`).toBeGreaterThanOrEqual(0);
+    await this.deleteSwitchByIndex(index);
+  }
+
+  async setSwitchesTo(switches: Switch[]): Promise<void> {
+    const numberOfExistingSwitches = await this.readNumberOfSwitchesFromUi();
+
+    // remove switches if there are more than needed
+    for (let i = numberOfExistingSwitches; i > switches.length; i--) {
+      await this.deleteSwitchByIndex(i - 1);
+    }
+
+    // edit existing switches to match provided switches or add new switches
+    for (let i = 0; i < switches.length; i++) {
+      if (i < numberOfExistingSwitches) {
+        await this.editSwitchByIndex(i, switches[i]);
+      } else {
+        await this.addSwitch(switches[i]);
+      }
+    }
+  }
+
+  private async deleteSwitchByIndex(index: number): Promise<void> {
     await this.page.getByTestId(`button-delete-switch-${index}`).click();
+  }
+
+  private async editSwitchByIndex(index: number, newSwitchContent: Switch): Promise<void> {
+    await this.page.getByTestId(`button-edit-switch-${index}`).click();
+    await this.fillDialogManipulateSwitch(newSwitchContent);
+    await this.page.getByTestId('button-add-switch-ok').click();
   }
 }

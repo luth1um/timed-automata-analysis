@@ -56,10 +56,39 @@ export class ClockUiHelper {
     await this.addClocksIfNotPresent(uniqueClockNames);
   }
 
+  async editClockName(oldName: string, newName: string): Promise<void> {
+    const clocks = await this.readClocksFromUi();
+    const index = clocks.findIndex((clock) => clock.name === oldName);
+    expect(index, `clock ${oldName} should be present for editing`).toBeGreaterThanOrEqual(0);
+    await this.editClockNameByIndex(index, newName);
+  }
+
   async removeClockByName(name: string): Promise<void> {
     const clocks = await this.readClocksFromUi();
     const index = clocks.findIndex((clock) => clock.name === name);
     expect(index, `clock ${name} should be present for removal`).toBeGreaterThanOrEqual(0);
+    await this.removeClockByIndex(index);
+  }
+
+  async setClocksTo(clocks: Clock[]): Promise<void> {
+    const numberOfExistingClocks = await this.readNumberOfClocksFromUi();
+
+    // remove clocks if there are more than needed
+    for (let i = numberOfExistingClocks; i > clocks.length; i--) {
+      await this.removeClockByIndex(i - 1);
+    }
+
+    // edit existing clocks to match or add new clocks
+    for (let i = 0; i < clocks.length; i++) {
+      if (i < numberOfExistingClocks) {
+        await this.editClockNameByIndex(i, clocks[i].name);
+      } else {
+        await this.addClock(clocks[i].name);
+      }
+    }
+  }
+
+  private async removeClockByIndex(index: number): Promise<void> {
     await this.page.getByTestId(`button-delete-clock-${index}`).click();
 
     const deleteConfirmationRequired = await this.page.getByTestId('button-confirm-delete-clock').isVisible();
@@ -68,11 +97,7 @@ export class ClockUiHelper {
     }
   }
 
-  async editClockName(oldName: string, newName: string): Promise<void> {
-    const clocks = await this.readClocksFromUi();
-    const index = clocks.findIndex((clock) => clock.name === oldName);
-    expect(index, `clock ${oldName} should be present for editing`).toBeGreaterThanOrEqual(0);
-
+  private async editClockNameByIndex(index: number, newName: string): Promise<void> {
     await this.page.getByTestId(`button-edit-clock-${index}`).click();
     await this.page.getByTestId('input-clock-name').locator('input').fill(newName);
     await this.page.getByTestId('button-add-clock-ok').click();

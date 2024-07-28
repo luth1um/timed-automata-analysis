@@ -43,9 +43,7 @@ export class LocationUiHelper {
     const index = locations.findIndex((loc) => loc.name === oldLocName);
     expect(index, `location ${oldLocName} should be present for editing`).toBeGreaterThanOrEqual(0);
 
-    await this.page.getByTestId(`button-edit-location-${index}`).click();
-    await this.fillDialogManipulateLocation(location);
-    await this.page.getByTestId('button-add-location-ok').click();
+    await this.editLocationByIndex(index, location);
   }
 
   private async fillDialogManipulateLocation(location: Location): Promise<void> {
@@ -101,6 +99,34 @@ export class LocationUiHelper {
     const locations = await this.readLocationsFromUi();
     const index = locations.findIndex((loc) => loc.name === locationName);
     expect(index, `location ${locationName} should be present for removal`).toBeGreaterThanOrEqual(0);
+    await this.deleteLocationByIndex(index);
+  }
+
+  async setLocationsTo(locations: Location[]): Promise<void> {
+    const numberOfExistingLocations = await this.readNumberOfLocationsFromUi();
+
+    // remove locations if there are more than needed
+    for (let i = numberOfExistingLocations; i > locations.length; i--) {
+      await this.deleteLocationByIndex(i - 1);
+    }
+
+    // edit existing locations to match provided locations or add new locations
+    for (let i = 0; i < locations.length; i++) {
+      if (i < numberOfExistingLocations) {
+        await this.editLocationByIndex(i, locations[i]);
+      } else {
+        await this.addLocation(locations[i]);
+      }
+    }
+  }
+
+  private async deleteLocationByIndex(index: number): Promise<void> {
     await this.page.getByTestId(`button-delete-location-${index}`).click();
+  }
+
+  private async editLocationByIndex(index: number, newLocationContent: Location): Promise<void> {
+    await this.page.getByTestId(`button-edit-location-${index}`).click();
+    await this.fillDialogManipulateLocation(newLocationContent);
+    await this.page.getByTestId('button-add-location-ok').click();
   }
 }
