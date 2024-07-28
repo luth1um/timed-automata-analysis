@@ -13,7 +13,7 @@ export function locationFixtureWithInvariant(): Location {
 }
 
 export function locationFixtureWithName(name: string): Location {
-  return { name: name, xCoordinate: 0, yCoordinate: 0 };
+  return { name: name, isInitial: false, invariant: undefined, xCoordinate: 0, yCoordinate: 0 };
 }
 
 export function locationFixtureInitWithMultiClauseInvariant(): Location {

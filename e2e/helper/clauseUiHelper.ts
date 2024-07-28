@@ -1,16 +1,19 @@
 import { Page } from '@playwright/test';
 import { ClockConstraint } from '../../src/model/ta/clockConstraint';
 import { Clause } from '../../src/model/ta/clause';
+import { UtilHelper } from './utilHelper';
 
 export class ClauseUiHelper {
   readonly page: Page;
+  readonly utilHelper: UtilHelper;
 
-  constructor(page: Page) {
+  constructor(page: Page, utilHelper: UtilHelper) {
     this.page = page;
+    this.utilHelper = utilHelper;
   }
 
   async readNumberOfClausesFromUi(): Promise<number> {
-    return (await this.page.$$('[data-testid^="button-delete-clause-row-"]')).length;
+    return await this.utilHelper.readNumberOfElementsWithPartialTestId('button-delete-clause-row-');
   }
 
   async setClausesTo(clockConstraint: ClockConstraint): Promise<void> {

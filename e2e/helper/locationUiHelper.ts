@@ -3,20 +3,24 @@ import { Location } from '../../src/model/ta/location';
 import { ClockUiHelper } from './clockUiHelper';
 import { ClauseUiHelper } from './clauseUiHelper';
 import { ClockConstraintHelper } from './clockConstraintHelper';
+import { UtilHelper } from './utilHelper';
 
 export class LocationUiHelper {
   readonly page: Page;
+  readonly utilHelper: UtilHelper;
   readonly clockUiHelper: ClockUiHelper;
   readonly clausesUiHelper: ClauseUiHelper;
   readonly clockConstraintHelper: ClockConstraintHelper;
 
   constructor(
     page: Page,
+    utilHelper: UtilHelper,
     clockUiHelper: ClockUiHelper,
     clausesUiHelper: ClauseUiHelper,
     clockConstraintHelper: ClockConstraintHelper
   ) {
     this.page = page;
+    this.utilHelper = utilHelper;
     this.clockUiHelper = clockUiHelper;
     this.clausesUiHelper = clausesUiHelper;
     this.clockConstraintHelper = clockConstraintHelper;
@@ -48,7 +52,7 @@ export class LocationUiHelper {
   }
 
   async readLocationsFromUi(): Promise<Location[]> {
-    const numberOfLocs = (await this.page.$$('[data-testid^="table-cell-location-"]')).length;
+    const numberOfLocs = await this.utilHelper.readNumberOfElementsWithPartialTestId('table-cell-location-');
     const locs: Location[] = [];
     for (let i = 0; i < numberOfLocs; i++) {
       const locText = await this.page.getByTestId(`table-cell-location-${i}`).textContent();
@@ -68,5 +72,14 @@ export class LocationUiHelper {
 
   async readNumberOfLocationsFromUi(): Promise<number> {
     return (await this.readLocationsFromUi()).length;
+  }
+
+  async addLocationsIfNotPresent(locations: Location[]): Promise<void> {
+    const presentLocationsNames = (await this.readLocationsFromUi()).map((loc) => loc.name);
+    for (const loc of locations) {
+      if (!presentLocationsNames.includes(loc.name)) {
+        await this.addLocation(loc);
+      }
+    }
   }
 }

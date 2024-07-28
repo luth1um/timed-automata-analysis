@@ -5,6 +5,7 @@ import { Clock } from '../src/model/ta/clock';
 import { Location } from '../src/model/ta/location';
 import { clockFixtureWithClockName } from '../test/fixture/clockFixture';
 import { locationFixtureInitWithMultiClauseInvariant } from '../test/fixture/locationFixture';
+import { switchFixtureASwitch } from '../test/fixture/switchFixture';
 
 test.describe('While manipulating a TA', () => {
   test.beforeEach(async ({ page }) => {
@@ -41,7 +42,26 @@ test.describe('While manipulating a TA', () => {
     expect(locations, 'freshly added location should actually be in the list').toContainEqual(location);
   });
 
-  // TODO: add switch works
+  test('the TA contains the correct set of switches when switches are added', async ({ switchUiHelper }) => {
+    // given
+    const sw = switchFixtureASwitch();
+    const initSwitchNumber = await switchUiHelper.readNumberOfSwitchesFromUi();
+
+    // when
+    await switchUiHelper.addSwitch(sw);
+
+    // then
+    const switches = await switchUiHelper.readSwitchesFromUi();
+    expect(switches.length, 'number of switches should have increased by 1').toBe(initSwitchNumber + 1);
+    expect(switches, 'freshly added switch should actually be in the list').toContainEqual(sw);
+  });
+
+  // TODO: editing location works
+  // TODO: editing switch works
+  // TODO: editing clock works
+  // TODO: deleting location works
+  // TODO: deleting switch works
+  // TODO: deleting clock works
   // TODO: adding all types of elements works
   // TODO: removing all types of elements works
   // TODO: removing and then adding all types of elements works
