@@ -17,7 +17,7 @@ env:
 
 jobs:
   # Install dependencies and cache
-  install:
+  prepare:
     runs-on: ubuntu-latest
     outputs:
       cache-hit: ${{ steps.cache.outputs.cache-hit }}
@@ -44,7 +44,7 @@ jobs:
 
   # Check linting and formatting
   static-analysis:
-    needs: install
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -71,7 +71,7 @@ jobs:
 
   # Build the project
   build:
-    needs: install
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -95,7 +95,7 @@ jobs:
 
   # Run unit tests
   test:
-    needs: install
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
