@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { AnalysisViewModel } from '../viewmodel/AnalysisViewModel';
-import { Tooltip, Typography } from '@mui/material';
+import { AnalysisState, AnalysisViewModel } from '../viewmodel/AnalysisViewModel';
+import { Button, Tooltip, Typography } from '@mui/material';
 import ElementTable, { ElementRowData } from './ElementTable';
 import { useTranslation } from 'react-i18next';
 import { useFormattingUtils } from '../utils/formattingUtils';
@@ -14,6 +14,8 @@ import { Clock } from '../model/ta/clock';
 import { useClockConstraintUtils } from '../utils/clockConstraintUtils';
 import ClockDeleteConfirmDialog from './ClockDeleteConfirmDialog';
 import ManipulateClockDialog from './ManipulateClockDialog';
+import { AnalysisDialog } from './AnalysisDialog';
+import { useButtonUtils } from '../utils/buttonUtils';
 
 interface ManipulationProps {
   viewModel: AnalysisViewModel;
@@ -22,6 +24,7 @@ interface ManipulationProps {
 export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
   const { viewModel } = props;
   const {
+    state,
     ta,
     addLocation,
     editLocation,
@@ -37,6 +40,7 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
   const { t } = useTranslation();
   const { formatLocationLabelTable, formatSwitchTable } = useFormattingUtils();
   const { taUsesClockInAnyConstraint } = useClockConstraintUtils();
+  const { executeOnKeyboardClick } = useButtonUtils();
 
   const [locationAddOpen, setLocationAddOpen] = useState(false);
   const [locationEditOpen, setLocationEditOpen] = useState(false);
@@ -115,12 +119,13 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
         contentSingular={t('manipulation.table.locSingular')}
         contentPlural={t('manipulation.table.locPlural')}
         typeForTestId={'location'}
+        state={state}
         onAddOpen={handleLocationAddOpen}
         onEditOpen={handleLocationEditOpen}
         onDelete={handleLocationDelete}
       />
     );
-  }, [locations, t, formatLocationLabelTable, handleLocationEditOpen, handleLocationDelete]);
+  }, [locations, t, state, formatLocationLabelTable, handleLocationEditOpen, handleLocationDelete]);
 
   // ===== manipulate switches =================================================
 
@@ -179,12 +184,13 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
         contentSingular={t('manipulation.table.switchSingular')}
         contentPlural={t('manipulation.table.switchPlural')}
         typeForTestId={'switch'}
+        state={state}
         onAddOpen={handleSwitchAddOpen}
         onEditOpen={handleSwitchEditOpen}
         onDelete={handleSwitchDelete}
       />
     );
-  }, [switches, t, formatSwitchTable, handleSwitchEditOpen, handleSwitchDelete]);
+  }, [switches, t, state, formatSwitchTable, handleSwitchEditOpen, handleSwitchDelete]);
 
   // ===== manipulate clocks ===================================================
 
@@ -244,14 +250,15 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
         contentSingular={t('manipulation.table.clockSingular')}
         contentPlural={t('manipulation.table.clockPlural')}
         typeForTestId={'clock'}
+        state={state}
         onAddOpen={handleClockAddOpen}
         onEditOpen={handleClockEditOpen}
         onDelete={handleClockDelete}
       />
     );
-  }, [clocks, t, handleClockEditOpen, handleClockDelete]);
+  }, [clocks, t, state, handleClockEditOpen, handleClockDelete]);
 
-  // ===========================================================================
+  // ===== generate tables =====================================================
 
   const allTables: JSX.Element[] = useMemo(() => {
     const tables = [locationTable, switchTable, clockTable];
@@ -262,9 +269,30 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
     ));
   }, [locationTable, switchTable, clockTable]);
 
+  // ===== handle analysis =====================================================
+
+  const [analysisOpen, setAnalysisOpen] = useState(false);
+  const handleAnalysisOpen = () => setAnalysisOpen(true);
+  const handleAnalysisClose = () => setAnalysisOpen(false);
+
+  // ===========================================================================
+
   return (
     <>
+      <div key={'analysis-button-div'} style={{ marginBottom: '16px' }}>
+        <Button
+          onMouseDown={handleAnalysisOpen}
+          onKeyDown={(e) => executeOnKeyboardClick(e.key, handleAnalysisClose)}
+          variant="contained"
+          color="primary"
+          size="small"
+          disabled={state !== AnalysisState.READY}
+        >
+          {t('manipulation.button.reachability')}
+        </Button>
+      </div>
       {allTables}
+      <AnalysisDialog open={analysisOpen} viewModel={viewModel} handleClose={handleAnalysisClose} />
       <ManipulateLocationDialog
         open={locationAddOpen}
         locations={locations}

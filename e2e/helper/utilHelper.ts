@@ -13,7 +13,7 @@ export class UtilHelper {
 
   async findAllElementsWithPartialTestId(partialTestId: string): Promise<ElementHandle<SVGElement | HTMLElement>[]> {
     // briefly pause to ensure that all elements are loaded
-    await this.page.waitForTimeout(100);
+    await this.page.waitForTimeout(200);
     return await this.page.$$(`[data-testid^="${partialTestId}"]`);
   }
 }
