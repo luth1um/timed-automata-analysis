@@ -15,7 +15,7 @@
   "manipulation.table.editLabel": "{{type}} bearbeiten",
   "manipulation.table.deleteLabel": "{{type}} löschen",
   "analysisDialog.title": "Erreichbarkeitsanalyse",
-  "analysisDialog.description": "An dieser Stelle kann eine Erreichbarkeitsanalyse für den modellieren TA durchgeführt werden. Als Ergebnis werden alle unerreichbaren Orte aufgelistet.",
+  "analysisDialog.description": "An dieser Stelle kann eine Erreichbarkeitsanalyse für den modellierten TA durchgeführt werden. Als Ergebnis werden alle unerreichbaren Orte aufgelistet.",
   "analysisDialog.analysis.error": "Bei der Analyse ist ein Fehler aufgetreten. {{msg}}",
   "analysisDialog.analysis.resultAllReachable": "Alle Orte sind erreichbar.",
   "analysisDialog.analysis.resultSomeUnreachable": "Die folgenden Orte sind unerreichbar:",
