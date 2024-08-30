@@ -286,6 +286,7 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
           variant="contained"
           color="primary"
           size="small"
+          data-testid={'button-open-analysis'}
           disabled={state !== AnalysisState.READY}
         >
           {t('manipulation.button.reachability')}

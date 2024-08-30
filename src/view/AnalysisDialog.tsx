@@ -43,7 +43,9 @@ export const AnalysisDialog: React.FC<AnalysisDialogProps> = (props) => {
     }
 
     if (unreachableLocs.length === 0) {
-      setAnalysisResult(<p>{t('analysisDialog.analysis.resultAllReachable')}</p>);
+      setAnalysisResult(
+        <p data-testid={'analysis-result-all-reachable'}>{t('analysisDialog.analysis.resultAllReachable')}</p>
+      );
     } else {
       const resultItems = unreachableLocs.map((loc, index) => <li key={'reach-result-' + index}>{loc}</li>);
       const unreachableText = t('analysisDialog.analysis.resultSomeUnreachable');
@@ -95,6 +97,7 @@ export const AnalysisDialog: React.FC<AnalysisDialogProps> = (props) => {
           variant="contained"
           color="primary"
           disabled={state !== AnalysisState.READY}
+          data-testid={'button-start-analysis'}
         >
           {t('analysisDialog.button.analyze')}
         </Button>
