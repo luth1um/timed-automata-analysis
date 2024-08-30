@@ -23,6 +23,15 @@ The usual commands for React projects also apply here.
 
 See `package.json` for further commands.
 
+## 🎯 Reachability Analysis
+
+This project supports reachability analysis for modeled TA.
+To start an analysis, just press the respective button in the UI.
+The app will then calculate reachability for all locations.
+
+The implementation of the analysis is done [in a separate project](https://github.com/luth1um/timed-automata-analyzer) and is also available as an [NPM package](https://www.npmjs.com/package/timed-automata-analyzer) called `timed-automata-analyzer`.
+For maximum performance, the analyzer is written in Rust and compiled to WebAssembly.
+
 ## 🔗 Links
 
 - [Timed-Automata Analysis on GitHub Pages](https://luth1um.github.io/timed-automata-analysis/)
