@@ -55,6 +55,8 @@ export interface AnalysisViewModel {
   addClock: (viewModel: AnalysisViewModel, clockName: string) => void;
   editClock: (viewModel: AnalysisViewModel, clockName: string, prevClockName: string) => void;
   removeClock: (viewModel: AnalysisViewModel, clock: Clock) => void;
+  setStateAnalyzing: (viewModel: AnalysisViewModel) => void;
+  setStateReady: (viewModel: AnalysisViewModel) => void;
 }
 
 export enum AnalysisState {
@@ -277,6 +279,16 @@ export function useAnalysisViewModel(): AnalysisViewModel {
     [removeAllClausesUsingClock, removeClockFromAllResets]
   );
 
+  const setStateAnalyzing = useCallback((viewModel: AnalysisViewModel) => {
+    setViewModel({ ...viewModel, state: AnalysisState.ANALYZING });
+  }, []);
+
+  const setStateReady = useCallback((viewModel: AnalysisViewModel) => {
+    setViewModel({ ...viewModel, state: AnalysisState.READY });
+  }, []);
+
+  // ===== manipulate state ====================================================
+
   const [viewModel, setViewModel] = useState<AnalysisViewModel>({
     state: AnalysisState.INIT,
     ta: INIT_AUTOMATON,
@@ -291,6 +303,8 @@ export function useAnalysisViewModel(): AnalysisViewModel {
     addClock: addClock,
     editClock: editClock,
     removeClock: removeClock,
+    setStateAnalyzing: setStateAnalyzing,
+    setStateReady: setStateReady,
   });
 
   // ===================================================================================================================
@@ -304,7 +318,6 @@ export function useAnalysisViewModel(): AnalysisViewModel {
 
   useEffect(() => {
     if (viewModel.state === AnalysisState.ANALYZING) {
-      // TODO: analyze TA
       setViewModel({ ...viewModel, state: AnalysisState.READY });
     }
   }, [viewModel]);

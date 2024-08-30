@@ -156,7 +156,9 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
           label={t('locDialog.hasInvariant')}
           data-testid={'checkbox-location-hasInvariant'}
         />
-        {invariantChecked && <ClausesManipulation viewModel={clausesViewModel} clocks={clocks} />}
+        {invariantChecked && (
+          <ClausesManipulation viewModel={clausesViewModel} clocks={clocks} downwardClosedOnly={true} />
+        )}
         {invariantChecked && (
           <Button
             variant="outlined"

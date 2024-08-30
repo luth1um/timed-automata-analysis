@@ -10,10 +10,11 @@ import { useButtonUtils } from '../utils/buttonUtils';
 interface ClausesManipulationProps {
   viewModel: ClausesViewModel;
   clocks: Clock[];
+  downwardClosedOnly?: boolean;
 }
 
 export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) => {
-  const { viewModel, clocks } = props;
+  const { viewModel, clocks, downwardClosedOnly } = props;
   const { clauses, deleteClause, changeClause } = viewModel;
   const { t } = useTranslation();
   const { executeOnKeyboardClick } = useButtonUtils();
@@ -30,12 +31,14 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
 
   const comparisonDropdownItems = useMemo(
     () =>
-      Object.values(ClockComparator).map((v) => (
-        <MenuItem key={v} value={v} data-testid={'menu-item-comparison-' + v}>
-          {v}
-        </MenuItem>
-      )),
-    []
+      Object.values(ClockComparator)
+        .filter((comp) => !downwardClosedOnly || comp === ClockComparator.LESSER || comp === ClockComparator.LEQ)
+        .map((v) => (
+          <MenuItem key={v} value={v} data-testid={'menu-item-comparison-' + v}>
+            {v}
+          </MenuItem>
+        )),
+    [downwardClosedOnly]
   );
 
   return (
