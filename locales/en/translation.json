@@ -15,7 +15,7 @@
   "manipulation.table.editLabel": "Edit {{type}}",
   "manipulation.table.deleteLabel": "Delete {{type}}",
   "analysisDialog.title": "Analyze Reachability",
-  "analysisDialog.description": "Here, you start a reachability analysis for the TA. As a result, all unreachable locations will be listed.",
+  "analysisDialog.description": "Here, you can perform a reachability analysis for the TA. The result will list all unreachable locations.",
   "analysisDialog.analysis.error": "An error occurred during analysis. {{msg}}",
   "analysisDialog.analysis.resultAllReachable": "All locations are reachable.",
   "analysisDialog.analysis.resultSomeUnreachable": "The following locations are unreachable:",
