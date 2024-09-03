@@ -1,5 +1,14 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  IconButton,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { Clock } from '../model/ta/clock';
 import { useTranslation } from 'react-i18next';
 import { useButtonUtils } from '../utils/buttonUtils';
@@ -26,7 +35,16 @@ const ClockDeleteConfirmDialog: React.FC<ClockDeleteConfirmDialogProps> = (props
 
   return (
     <Dialog open={open} onClose={onClose} data-testid="dialog-delete-clock-confirm">
-      <DialogTitle>{t('deleteClockConfirmDialog.title', { clockName: clock.name })}</DialogTitle>
+      <DialogTitle>
+        {t('deleteClockConfirmDialog.title', { clockName: clock.name })}
+        <IconButton
+          onMouseDown={onClose}
+          onKeyDown={(e) => executeOnKeyboardClick(e.key, onClose)}
+          sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>{t('deleteClockConfirmDialog.contentText', { clockName: clock.name })}</DialogContentText>
         <p>

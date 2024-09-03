@@ -16,6 +16,7 @@ import ClockDeleteConfirmDialog from './ClockDeleteConfirmDialog';
 import ManipulateClockDialog from './ManipulateClockDialog';
 import { AnalysisDialog } from './AnalysisDialog';
 import { useButtonUtils } from '../utils/buttonUtils';
+import { ResetDialog } from './ResetDialog';
 
 interface ManipulationProps {
   viewModel: AnalysisViewModel;
@@ -35,6 +36,7 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
     addClock,
     editClock,
     removeClock,
+    setStateReset,
   } = viewModel;
   const { locations, switches, clocks } = ta;
   const { t } = useTranslation();
@@ -275,25 +277,45 @@ export const AutomatonManipulation: React.FC<ManipulationProps> = (props) => {
   const handleAnalysisOpen = () => setAnalysisOpen(true);
   const handleAnalysisClose = () => setAnalysisOpen(false);
 
+  // ===== handle reset ========================================================
+
+  const [resetWarnOpen, setResetWarnOpen] = useState(false);
+  const handleResetOpen = () => setResetWarnOpen(true);
+  const handleResetClose = () => setResetWarnOpen(false);
+  const handleReset = () => setStateReset(viewModel);
+
   // ===========================================================================
 
   return (
     <>
-      <div key={'analysis-button-div'} style={{ marginBottom: '16px' }}>
-        <Button
-          onMouseDown={handleAnalysisOpen}
-          onKeyDown={(e) => executeOnKeyboardClick(e.key, handleAnalysisClose)}
-          variant="contained"
-          color="primary"
-          size="small"
-          data-testid={'button-open-analysis'}
-          disabled={state !== AnalysisState.READY}
-        >
-          {t('manipulation.button.reachability')}
-        </Button>
-      </div>
+      <Button
+        style={{ marginBottom: '4px' }}
+        onMouseDown={handleAnalysisOpen}
+        onKeyDown={(e) => executeOnKeyboardClick(e.key, handleAnalysisOpen)}
+        variant="contained"
+        color="primary"
+        size="small"
+        data-testid={'button-open-analysis'}
+        disabled={state !== AnalysisState.READY}
+      >
+        {t('manipulation.button.reachability')}
+      </Button>
+      <br />
+      <Button
+        style={{ marginBottom: '16px' }}
+        onMouseDown={handleResetOpen}
+        onKeyDown={(e) => executeOnKeyboardClick(e.key, handleResetOpen)}
+        variant="contained"
+        color="error"
+        size="small"
+        data-testid={'button-open-reset'}
+        disabled={state !== AnalysisState.READY}
+      >
+        {t('manipulation.button.reset')}
+      </Button>
       {allTables}
       <AnalysisDialog open={analysisOpen} viewModel={viewModel} handleClose={handleAnalysisClose} />
+      <ResetDialog open={resetWarnOpen} handleClose={handleResetClose} handleReset={handleReset} />
       <ManipulateLocationDialog
         open={locationAddOpen}
         locations={locations}

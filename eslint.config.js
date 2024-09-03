@@ -53,6 +53,6 @@ export default tseslint.config(
   },
   {
     // needs to be in its own object to act as global ignore
-    ignores: ['dist', '*.cjs'],
+    ignores: ['dist', 'playwright-report', '*.cjs'],
   }
 );

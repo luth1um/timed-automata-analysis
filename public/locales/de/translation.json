@@ -1,6 +1,7 @@
 {
   "app.title": "Analyse von Timed Automata",
   "manipulation.button.reachability": "Erreichbarkeit",
+  "manipulation.button.reset": "TA zurücksetzen",
   "manipulation.table.showContent": "{{content}} ausklappen",
   "manipulation.table.hideContent": "{{content}} einklappen",
   "manipulation.table.addElement": "{{content}} hinzufügen",
@@ -21,6 +22,10 @@
   "analysisDialog.analysis.resultSomeUnreachable": "Die folgenden Orte sind unerreichbar:",
   "analysisDialog.button.close": "Schließen",
   "analysisDialog.button.analyze": "Starten",
+  "resetDialog.title": "Zurücksetzen bestätigen",
+  "resetDialog.contentText": "Bist du sicher, dass du den TA zurücksetzen möchtest? Alle Änderungen gehen dabei verloren.",
+  "resetDialog.button.cancel": "Abbrechen",
+  "resetDialog.button.reset": "Zurücksetzen",
   "locDialog.errorNameEmpty": "Name darf nicht leer sein",
   "locDialog.errorNameExists": "Name wird bereits verwendet",
   "locDialog.editLoc": "Ort bearbeiten",

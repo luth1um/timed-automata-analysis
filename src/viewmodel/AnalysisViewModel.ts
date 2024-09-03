@@ -8,7 +8,7 @@ import { useMathUtils } from '../utils/mathUtils';
 import { useSwitchUtils } from '../utils/switchUtils';
 import { useClockConstraintUtils } from '../utils/clockConstraintUtils';
 import { useClockUtils } from '../utils/clockUtils';
-import { INIT_AUTOMATON } from '../utils/initAutomaton';
+import { getInitAutomaton } from '../utils/initAutomaton';
 
 export interface AnalysisViewModel {
   state: AnalysisState;
@@ -57,6 +57,7 @@ export interface AnalysisViewModel {
   removeClock: (viewModel: AnalysisViewModel, clock: Clock) => void;
   setStateAnalyzing: (viewModel: AnalysisViewModel) => void;
   setStateReady: (viewModel: AnalysisViewModel) => void;
+  setStateReset: (viewModel: AnalysisViewModel) => void;
 }
 
 export enum AnalysisState {
@@ -287,24 +288,29 @@ export function useAnalysisViewModel(): AnalysisViewModel {
     setViewModel({ ...viewModel, state: AnalysisState.READY });
   }, []);
 
+  const setStateReset = useCallback((viewModel: AnalysisViewModel) => {
+    setViewModel({ ...viewModel, state: AnalysisState.RESET });
+  }, []);
+
   // ===== manipulate state ====================================================
 
   const [viewModel, setViewModel] = useState<AnalysisViewModel>({
     state: AnalysisState.INIT,
-    ta: INIT_AUTOMATON,
-    addLocation: addLocation,
-    editLocation: editLocation,
-    removeLocation: removeLocation,
-    setInitialLocation: setInitialLocation,
-    updateLocationCoordinates: updateLocationCoordinates,
-    addSwitch: addSwitch,
-    editSwitch: editSwitch,
-    removeSwitch: removeSwitch,
-    addClock: addClock,
-    editClock: editClock,
-    removeClock: removeClock,
-    setStateAnalyzing: setStateAnalyzing,
-    setStateReady: setStateReady,
+    ta: getInitAutomaton(),
+    addLocation,
+    editLocation,
+    removeLocation,
+    setInitialLocation,
+    updateLocationCoordinates,
+    addSwitch,
+    editSwitch,
+    removeSwitch,
+    addClock,
+    editClock,
+    removeClock,
+    setStateAnalyzing,
+    setStateReady,
+    setStateReset,
   });
 
   // ===================================================================================================================
@@ -318,14 +324,13 @@ export function useAnalysisViewModel(): AnalysisViewModel {
 
   useEffect(() => {
     if (viewModel.state === AnalysisState.ANALYZING) {
-      setViewModel({ ...viewModel, state: AnalysisState.READY });
+      // nothing to do here at the moment
     }
   }, [viewModel]);
 
   useEffect(() => {
     if (viewModel.state === AnalysisState.RESET) {
-      // TODO: add a reset button to use this reset
-      setViewModel({ ...viewModel, ta: INIT_AUTOMATON, state: AnalysisState.READY });
+      setViewModel({ ...viewModel, ta: getInitAutomaton(), state: AnalysisState.READY });
     }
   }, [viewModel]);
 

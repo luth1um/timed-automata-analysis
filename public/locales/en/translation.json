@@ -1,6 +1,7 @@
 {
   "app.title": "Timed-Automata Analysis",
   "manipulation.button.reachability": "Reachability",
+  "manipulation.button.reset": "Reset TA",
   "manipulation.table.showContent": "Show {{content}}",
   "manipulation.table.hideContent": "Hide {{content}}",
   "manipulation.table.addElement": "Add {{content}}",
@@ -21,6 +22,10 @@
   "analysisDialog.analysis.resultSomeUnreachable": "The following locations are unreachable:",
   "analysisDialog.button.close": "Close",
   "analysisDialog.button.analyze": "Analyze",
+  "resetDialog.title": "Confirm Reset",
+  "resetDialog.contentText": "Are you sure that you want to reset the TA? All changes will be lost.",
+  "resetDialog.button.cancel": "Cancel",
+  "resetDialog.button.reset": "Reset",
   "locDialog.errorNameEmpty": "Name cannot be empty",
   "locDialog.errorNameExists": "Name already exists",
   "locDialog.editLoc": "Edit Location",

@@ -53,8 +53,12 @@ const SWITCH_0: Switch = {
   target: LOC_1,
 };
 
-export const INIT_AUTOMATON: TimedAutomaton = {
+const INIT_AUTOMATON: TimedAutomaton = {
   locations: [LOC_0, LOC_1],
   clocks: [CLOCK_0, CLOCK_1],
   switches: [SWITCH_0],
 };
+
+export function getInitAutomaton(): TimedAutomaton {
+  return structuredClone(INIT_AUTOMATON);
+}
