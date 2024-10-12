@@ -15,11 +15,11 @@ export type TestOptions = {
 };
 
 export const test = base.extend<TestOptions>({
-  clockUiHelper: async ({ page }, use) => {
-    await use(new ClockUiHelper(page, new UtilHelper(page)));
+  clockUiHelper: async ({ page }, apply) => {
+    await apply(new ClockUiHelper(page, new UtilHelper(page)));
   },
-  locationUiHelper: async ({ page }, use) => {
-    await use(
+  locationUiHelper: async ({ page }, apply) => {
+    await apply(
       new LocationUiHelper(
         page,
         new UtilHelper(page),
@@ -29,8 +29,8 @@ export const test = base.extend<TestOptions>({
       )
     );
   },
-  switchUiHelper: async ({ page }, use) => {
-    await use(
+  switchUiHelper: async ({ page }, apply) => {
+    await apply(
       new SwitchUiHelper(
         page,
         new UtilHelper(page),
@@ -47,8 +47,8 @@ export const test = base.extend<TestOptions>({
       )
     );
   },
-  taUiHelper: async ({ page }, use) => {
-    await use(
+  taUiHelper: async ({ page }, apply) => {
+    await apply(
       new TaUiHelper(
         page,
         new LocationUiHelper(

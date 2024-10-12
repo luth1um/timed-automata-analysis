@@ -83,8 +83,12 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
     } else {
       setIsNameDuplicate(locations.some((loc) => loc.name.toLowerCase() === name.toLowerCase()));
     }
-    isNameEmpty && setNameErrorMessage(t('locDialog.errorNameEmpty'));
-    isNameDuplicate && setNameErrorMessage(t('locDialog.errorNameExists'));
+    if (isNameEmpty) {
+      setNameErrorMessage(t('locDialog.errorNameEmpty'));
+    }
+    if (isNameDuplicate) {
+      setNameErrorMessage(t('locDialog.errorNameExists'));
+    }
   }, [name, locations, isNameEmpty, isNameDuplicate, locPrevVersion, t]);
 
   const isValidationError: boolean = useMemo(
