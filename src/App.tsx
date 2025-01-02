@@ -1,7 +1,8 @@
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import AutomatonVisualization from './view/AutomatonVisualization';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useAnalysisViewModel } from './viewmodel/AnalysisViewModel';
 import { AutomatonManipulation } from './view/AutomatonManipulation';
@@ -40,16 +41,12 @@ function App() {
       <Box sx={{ display: 'flex', height: `${contentHeight - 1}px`, overflow: 'hidden' }}>
         <Grid container sx={{ height: '100%' }}>
           <Grid
-            item
-            xs={12}
-            sm={4}
-            md={3}
-            lg={3}
+            size={{ xs: 12, sm: 4, md: 3, lg: 3 }}
             sx={{ borderRight: '1px solid #ccc', paddingLeft: '16px', overflowY: 'auto', height: '100%' }}
           >
             <AutomatonManipulation viewModel={viewModel} />
           </Grid>
-          <Grid item xs={12} sm={8} md={9} lg={9} sx={{ overflowY: 'hidden', height: '100%' }}>
+          <Grid size={{ xs: 12, sm: 8, md: 9, lg: 9 }} sx={{ overflowY: 'hidden', height: '100%' }}>
             <AutomatonVisualization viewModel={viewModel} />
           </Grid>
         </Grid>

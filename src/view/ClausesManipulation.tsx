@@ -1,8 +1,9 @@
-import { Grid, IconButton, FormControl, InputLabel, Select, TextField, Tooltip, MenuItem } from '@mui/material';
+import { IconButton, FormControl, InputLabel, Select, TextField, Tooltip, MenuItem } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import { ClausesViewModel } from '../viewmodel/ClausesViewModel';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ClockComparator } from '../model/ta/clockComparator';
 import { Clock } from '../model/ta/clock';
 import { useButtonUtils } from '../utils/buttonUtils';
@@ -45,7 +46,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
     <>
       {clauses.map((row) => (
         <Grid key={row.id} container spacing={2} alignItems="center">
-          <Grid item xs={1}>
+          <Grid size={{ xs: 1 }}>
             <IconButton
               disabled={clauses.length <= 1}
               onMouseDown={() => deleteClause(viewModel, row.id)}
@@ -57,7 +58,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               </Tooltip>
             </IconButton>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={{ xs: 4 }}>
             <FormControl fullWidth>
               <InputLabel>{t('clauses.input.clock')}</InputLabel>
               <Select
@@ -71,7 +72,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={{ xs: 4 }}>
             <FormControl fullWidth>
               <InputLabel>{t('clauses.input.comparison')}</InputLabel>
               <Select
@@ -85,7 +86,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={3}>
+          <Grid size={{ xs: 3 }}>
             <TextField
               margin="dense"
               label={t('clauses.input.value')}
@@ -94,7 +95,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               variant="outlined"
               value={row.numberInput}
               onChange={(e) => changeClause(viewModel, row.id, 'numberInput', e.target.value)}
-              InputProps={{ inputProps: { min: 0 } }}
+              slotProps={{ input: { inputProps: { min: 0 } } }}
               error={row.isNumberInvalid}
               data-testid={'select-comparison-number-row'}
             />

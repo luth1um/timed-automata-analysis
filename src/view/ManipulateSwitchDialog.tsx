@@ -9,7 +9,6 @@ import {
   MenuItem,
   FormControlLabel,
   IconButton,
-  Grid,
   FormControl,
   InputLabel,
   Select,
@@ -17,6 +16,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import CloseIcon from '@mui/icons-material/Close';
 import { Clock } from '../model/ta/clock';
 import { Location } from '../model/ta/location';
@@ -238,7 +238,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
   const resetGrid: JSX.Element[] = useMemo(
     () =>
       clocks.map((clock) => (
-        <Grid item xs={12} key={clock.name}>
+        <Grid size={{ xs: 12 }} key={clock.name}>
           <FormControlLabel
             control={
               <Checkbox
@@ -287,7 +287,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
           data-testid={'input-switch-action'}
         />
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <FormControl fullWidth>
               <InputLabel>{t('switchDialog.input.source')}</InputLabel>
               <Select
@@ -301,7 +301,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <FormControl fullWidth>
               <InputLabel>{t('switchDialog.input.target')}</InputLabel>
               <Select
