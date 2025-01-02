@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useButtonUtils } from '../utils/buttonUtils';
 import { findUnreachableLocations } from 'timed-automata-analyzer';
 import { useAnalyzerMappingUtils } from '../utils/analyzerMappingUtils';
-import { useState } from 'react';
+import React, { JSX, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnalysisState, AnalysisViewModel } from '../viewmodel/AnalysisViewModel';
 

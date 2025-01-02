@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { JSX, useCallback, useMemo, useState } from 'react';
 import { AnalysisState, AnalysisViewModel } from '../viewmodel/AnalysisViewModel';
 import { Button, Tooltip, Typography } from '@mui/material';
 import ElementTable, { ElementRowData } from './ElementTable';
