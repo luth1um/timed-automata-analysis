@@ -17,6 +17,9 @@ export default defineConfig({
   ],
   esbuild: {
     target: 'es2022',
+    supported: {
+      'top-level-await': true,
+    },
   },
   base: '/timed-automata-analysis/',
   build: {
