@@ -24,7 +24,7 @@ export default defineConfig({
   base: '/timed-automata-analysis/',
   build: {
     outDir: 'dist/timed-automata-analysis',
-    chunkSizeWarningLimit: 1100,
+    chunkSizeWarningLimit: 1700,
   },
   server: {
     open: true,
