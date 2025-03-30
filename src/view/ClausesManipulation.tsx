@@ -1,5 +1,5 @@
 import { IconButton, FormControl, InputLabel, Select, TextField, Tooltip, MenuItem } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import { ClausesViewModel } from '../viewmodel/ClausesViewModel';

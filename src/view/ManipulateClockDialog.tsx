@@ -85,8 +85,10 @@ export const ManipulateClockDialog: React.FC<ManipulateClockDialogProps> = (prop
     <Dialog
       open={open}
       onClose={handleCloseDialog}
-      PaperProps={{
-        style: { minWidth: '450px' },
+      slotProps={{
+        paper: {
+          style: { minWidth: '450px' },
+        },
       }}
     >
       <DialogTitle>

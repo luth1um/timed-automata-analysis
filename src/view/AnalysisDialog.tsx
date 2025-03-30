@@ -62,8 +62,10 @@ export const AnalysisDialog: React.FC<AnalysisDialogProps> = (props) => {
     <Dialog
       open={open}
       onClose={handleFormClose}
-      PaperProps={{
-        style: { minWidth: '450px' },
+      slotProps={{
+        paper: {
+          style: { minWidth: '450px' },
+        },
       }}
     >
       <DialogTitle>

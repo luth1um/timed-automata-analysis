@@ -16,7 +16,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { Clock } from '../model/ta/clock';
 import { Location } from '../model/ta/location';
@@ -242,7 +242,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
           <FormControlLabel
             control={
               <Checkbox
-                checked={!!resets[clock.name]}
+                checked={resets[clock.name]}
                 onChange={(e) => handleResetClockChange(clock.name, e.target.checked)}
                 data-testid={'checkbox-switch-reset-' + clock.name}
               />
@@ -258,8 +258,10 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
     <Dialog
       open={open}
       onClose={handleCloseDialog}
-      PaperProps={{
-        style: { minWidth: '450px' },
+      slotProps={{
+        paper: {
+          style: { minWidth: '450px' },
+        },
       }}
     >
       <DialogTitle>

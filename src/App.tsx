@@ -2,7 +2,7 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import AutomatonVisualization from './view/AutomatonVisualization';
 import { Box } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useAnalysisViewModel } from './viewmodel/AnalysisViewModel';
 import { AutomatonManipulation } from './view/AutomatonManipulation';
