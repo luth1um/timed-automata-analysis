@@ -1,4 +1,4 @@
-import { c as R, g as z, __tla as __tla_0 } from "./index-Ba9rVGCp.js";
+import { c as R, g as z, __tla as __tla_0 } from "./index-ClZHZgVE.js";
 let Q;
 let __tla = Promise.all([
   (() => {
@@ -29,25 +29,25 @@ let __tla = Promise.all([
     exports: {}
   }, U;
   function X() {
-    return U || (U = 1, function(w, d) {
-      var b = typeof globalThis < "u" && globalThis || typeof self < "u" && self || typeof R < "u" && R, y = function() {
+    return U || (U = 1, (function(w, d) {
+      var b = typeof globalThis < "u" && globalThis || typeof self < "u" && self || typeof R < "u" && R, y = (function() {
         function p() {
           this.fetch = false, this.DOMException = b.DOMException;
         }
         return p.prototype = b, new p();
-      }();
+      })();
       (function(p) {
         (function(u) {
           var a = typeof p < "u" && p || typeof self < "u" && self || typeof a < "u" && a, f = {
             searchParams: "URLSearchParams" in a,
             iterable: "Symbol" in a && "iterator" in Symbol,
-            blob: "FileReader" in a && "Blob" in a && function() {
+            blob: "FileReader" in a && "Blob" in a && (function() {
               try {
                 return new Blob(), true;
               } catch {
                 return false;
               }
-            }(),
+            })(),
             formData: "FormData" in a,
             arrayBuffer: "ArrayBuffer" in a
           };
@@ -348,7 +348,7 @@ let __tla = Promise.all([
       })(y), y.fetch.ponyfill = true, delete y.fetch.polyfill;
       var h = b.fetch ? b : y;
       d = h.fetch, d.default = h.fetch, d.fetch = h.fetch, d.Headers = h.Headers, d.Request = h.Request, d.Response = h.Response, w.exports = d;
-    }(A, A.exports)), A.exports;
+    })(A, A.exports)), A.exports;
   }
   var j = X();
   let J;
