@@ -6,20 +6,20 @@ If you want to see the tool in actions, just visit [this website](https://luth1u
 
 ## 🚀 Quick Start
 
-This project utilizes [Node](https://nodejs.org/) and [Yarn Classic](https://classic.yarnpkg.com/) for development.
+This project utilizes [Node](https://nodejs.org/) and [pnpm](https://pnpm.io/) for development.
 The usual commands for React projects also apply here.
 
-- `yarn install` to install all dependencies and setup the project locally
-- `yarn start` to run the app locally for development
-- `yarn format` to format all files
-- `yarn lint` for linting
-- `yarn test` for running unit tests
-- `yarn e2e` for running end-to-end tests
-- `yarn e2e-ui` for running end-to-end tests in the UI mode of Playwright
-- `yarn e2e-update-snapshots` for updating the end-to-end test snapshots
-- `yarn playwright install` for installing/updating the browsers for Playwright
-- `yarn build` to build the app for production
-- `yarn deploy` for deployment on GitHub Pages
+- `pnpm install` to install all dependencies and setup the project locally
+- `pnpm start` to run the app locally for development
+- `pnpm format` to format all files
+- `pnpm lint` for linting
+- `pnpm test` for running unit tests
+- `pnpm e2e` for running end-to-end tests
+- `pnpm e2e-ui` for running end-to-end tests in the UI mode of Playwright
+- `pnpm e2e-update-snapshots` for updating the end-to-end test snapshots
+- `pnpm playwright install` for installing/updating the browsers for Playwright
+- `pnpm build` to build the app for production
+- `pnpm deploy` for deployment on GitHub Pages
 
 See `package.json` for further commands.
 

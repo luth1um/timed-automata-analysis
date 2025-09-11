@@ -72,7 +72,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'yarn start',
+    command: 'pnpm start',
     url: TEST_BASE_URL,
     reuseExistingServer: !process.env.CI,
   },

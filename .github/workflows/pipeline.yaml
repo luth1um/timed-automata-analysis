@@ -14,33 +14,30 @@ permissions:
 
 env:
   HUSKY: 0
+  PNPM_VERSION: '10'
+  NODE_VERSION: '24'
 
 jobs:
   # Install dependencies and cache
   prepare:
     runs-on: ubuntu-latest
-    outputs:
-      cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
-
-      - name: Cache node_modules
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn --immutable
+        run: pnpm install --frozen-lockfile
 
   # Check linting and formatting
   static-analysis:
@@ -50,24 +47,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Linting
-        run: yarn eslint . --report-unused-disable-directives --max-warnings 0
+        run: pnpm eslint . --report-unused-disable-directives --max-warnings 0
 
       - name: Check formatting
-        run: yarn prettier --check .
+        run: pnpm prettier --check .
 
   # Build the project
   build:
@@ -77,21 +75,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Clean-up of the output directory for build
+        run: pnpm clean
 
       - name: Build the project
-        run: yarn build
+        run: pnpm build
 
   # Run unit tests
   test:
@@ -101,21 +103,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run unit tests
-        run: yarn test
+        run: pnpm test
 
   # Run end-to-end tests with Playwright
   e2e:
@@ -129,27 +132,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright dependencies for E2E tests
-        run: yarn playwright install-deps
+      - name: Clean-up of the test results
+        run: pnpm clean
 
-      - name: Install browsers for E2E tests
-        run: yarn playwright install
+      - name: Install browsers for Playwright
+        run: pnpm playwright install --with-deps
 
       - name: Run E2E tests
-        run: yarn e2e
+        run: pnpm e2e
 
   # Deploy to GitHub Pages
   deploy:
@@ -163,21 +167,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Clean-up of the output directory for build
+        run: pnpm clean
 
       - name: Build the project
-        run: yarn build
+        run: pnpm build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
