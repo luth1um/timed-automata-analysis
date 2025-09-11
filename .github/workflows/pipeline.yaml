@@ -16,32 +16,12 @@ env:
   HUSKY: 0
   PNPM_VERSION: '10'
   NODE_VERSION: '24'
+  BUILD_ARTIFACT_NAME: 'ta-analysis-build-output'
+  BUILD_ARTIFACT_FOLDER: 'dist/timed-automata-analysis'
 
 jobs:
-  # Install dependencies and cache
-  prepare:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
   # Check linting and formatting
   static-analysis:
-    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -69,7 +49,6 @@ jobs:
 
   # Build the project
   build:
-    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -95,9 +74,17 @@ jobs:
       - name: Build the project
         run: pnpm build
 
+      - name: Upload build artifact
+        if: github.ref == 'refs/heads/release' # build artifact is only needed for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+          path: ${{ env.BUILD_ARTIFACT_FOLDER }}
+          if-no-files-found: 'error'
+          retention-days: 1
+
   # Run unit tests
   test:
-    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -149,11 +136,27 @@ jobs:
       - name: Clean-up of the test results
         run: pnpm clean
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-browsers-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-browsers-
+
       - name: Install browsers for Playwright
         run: pnpm playwright install --with-deps
 
       - name: Run E2E tests
         run: pnpm e2e
+
+      - name: Upload Playwright results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
 
   # Deploy to GitHub Pages
   deploy:
@@ -167,27 +170,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v5
         with:
-          version: ${{ env.PNPM_VERSION }}
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+          path: ${{ env.BUILD_ARTIFACT_FOLDER }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Clean-up of the output directory for build
-        run: pnpm clean
-
-      - name: Build the project
-        run: pnpm build
+      - name: List downloaded artifact files
+        run: |
+          echo "Contents of ${{ env.BUILD_ARTIFACT_FOLDER }}:"
+          ls -R "${{ env.BUILD_ARTIFACT_FOLDER }}"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/timed-automata-analysis
+          folder: ${{ env.BUILD_ARTIFACT_FOLDER }}
