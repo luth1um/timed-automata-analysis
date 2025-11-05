@@ -57,6 +57,7 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
     }
     if (locPrevVersion !== undefined) {
       // load existing location if editing (for adding, "if" prevents entering this)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(locPrevVersion.name);
       setInitialLocationChecked(!!locPrevVersion.isInitial);
       if (locPrevVersion.invariant) {
@@ -73,6 +74,7 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
   // effect to update validation checks
   useEffect(() => {
     // check validity of name field
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsNameEmpty(name.trim() === '');
     if (locPrevVersion) {
       // previous name is allowed

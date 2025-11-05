@@ -95,6 +95,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
     }
     if (switchPrevVersion !== undefined) {
       // load existing switch if editing (for adding, "if" prevents entering this)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAction(switchPrevVersion.actionLabel);
       setSource(switchPrevVersion.source.name);
       setTarget(switchPrevVersion.target.name);
@@ -123,6 +124,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
 
   // update validation checks
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActionEmpty(action.trim() === '');
     setSourceEmpty(source.trim() === '');
     setTargetEmpty(target.trim() === '');

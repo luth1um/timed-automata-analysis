@@ -80,13 +80,10 @@ export function useAnalysisViewModel(): AnalysisViewModel {
     const ta = viewModel.ta;
     const updatedLocs = [...ta.locations];
     updatedLocs.forEach((l) => {
-      if (l.name === locationName) {
-        l.isInitial = true;
-      } else {
-        l.isInitial = false;
-      }
+      l.isInitial = l.name === locationName;
     });
     const updatedTa = { ...ta, locations: updatedLocs };
+    // eslint-disable-next-line react-hooks/immutability
     setViewModel({ ...viewModel, ta: updatedTa });
   }, []);
 

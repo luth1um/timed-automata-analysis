@@ -31,6 +31,7 @@ export const ManipulateClockDialog: React.FC<ManipulateClockDialogProps> = (prop
     }
 
     if (!prevClockName) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setClockName('');
     } else {
       setClockName(prevClockName);
