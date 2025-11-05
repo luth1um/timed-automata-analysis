@@ -1,13 +1,16 @@
-import js from '@eslint/js';
+// @ts-check
+
+import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
 
-export default tseslint.config(
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+export default defineConfig(
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
   {
     // eslint-plugin-react-hooks
     plugins: {
