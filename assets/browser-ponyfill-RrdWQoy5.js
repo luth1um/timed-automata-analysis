@@ -1,5 +1,5 @@
-import { c as R, g as z, __tla as __tla_0 } from "./index-CtcTGwiD.js";
-let Q;
+import { c as R, g as z, __tla as __tla_0 } from "./index-COXjSJDT.js";
+let W;
 let __tla = Promise.all([
   (() => {
     try {
@@ -8,7 +8,7 @@ let __tla = Promise.all([
     }
   })()
 ]).then(async () => {
-  function $(w, d) {
+  function X(w, d) {
     for (var b = 0; b < d.length; b++) {
       const y = d[b];
       if (typeof y != "string" && !Array.isArray(y)) {
@@ -28,7 +28,7 @@ let __tla = Promise.all([
   var A = {
     exports: {}
   }, U;
-  function X() {
+  function J() {
     return U || (U = 1, (function(w, d) {
       var b = typeof globalThis < "u" && globalThis || typeof self < "u" && self || typeof R < "u" && R, y = (function() {
         function p() {
@@ -350,17 +350,17 @@ let __tla = Promise.all([
       d = h.fetch, d.default = h.fetch, d.fetch = h.fetch, d.Headers = h.Headers, d.Request = h.Request, d.Response = h.Response, w.exports = d;
     })(A, A.exports)), A.exports;
   }
-  var j = X();
-  let J;
-  J = z(j);
-  Q = $({
+  var j = J();
+  let K;
+  K = z(j);
+  W = X({
     __proto__: null,
-    default: J
+    default: K
   }, [
     j
   ]);
 });
 export {
   __tla,
-  Q as b
+  W as b
 };
