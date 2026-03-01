@@ -31,7 +31,7 @@ export const AnalysisDialog: React.FC<AnalysisDialogProps> = (props) => {
 
   const handleAnalysis = () => {
     setStateAnalyzing(viewModel);
-    let unreachableLocs: string[] = [];
+    let unreachableLocs: string[];
     const mappedTa = mapTaToAnalyzerModel(ta);
     try {
       unreachableLocs = findUnreachableLocations(mappedTa);
