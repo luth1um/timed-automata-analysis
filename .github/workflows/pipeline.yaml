@@ -136,12 +136,6 @@ jobs:
       - name: Clean-up of the test results
         run: pnpm clean
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-browsers-${{ hashFiles('**/pnpm-lock.yaml') }}
-
       - name: Install browsers for Playwright
         run: pnpm playwright install --with-deps
 
