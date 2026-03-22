@@ -15,16 +15,10 @@ export default defineConfig({
       promiseImportName: (i) => `__tla_${i}`,
     }),
   ],
-  esbuild: {
-    target: 'es2022',
-    supported: {
-      'top-level-await': true,
-    },
-  },
   base: '/timed-automata-analysis/',
   build: {
     outDir: 'dist/timed-automata-analysis',
-    chunkSizeWarningLimit: 1700,
+    chunkSizeWarningLimit: 1800,
   },
   server: {
     open: true,
