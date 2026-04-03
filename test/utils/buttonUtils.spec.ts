@@ -12,7 +12,7 @@ describe('buttonUtils', () => {
 
   test('executeOnKeyboardClick executes functionToExecute when Enter key is pressed', () => {
     // given
-    const functionToExecute = jest.fn();
+    const functionToExecute = vi.fn();
     const keyPressed = 'Enter';
 
     // when
@@ -24,7 +24,7 @@ describe('buttonUtils', () => {
 
   test('executeOnKeyboardClick executes functionToExecute when Space key is pressed', () => {
     // given
-    const functionToExecute = jest.fn();
+    const functionToExecute = vi.fn();
     const keyPressed = ' ';
 
     // when
@@ -38,7 +38,7 @@ describe('buttonUtils', () => {
     'executeOnKeyboardClick does not execute functionToExecute when %s is pressed',
     (keyPressed) => {
       // given
-      const functionToExecute = jest.fn();
+      const functionToExecute = vi.fn();
 
       // when
       executeOnKeyboardClick(keyPressed, functionToExecute);

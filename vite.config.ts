@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import wasm from 'vite-plugin-wasm';
@@ -19,6 +21,13 @@ export default defineConfig({
   build: {
     outDir: 'dist/timed-automata-analysis',
     chunkSizeWarningLimit: 1800,
+  },
+  test: {
+    exclude: ['node_modules/**', 'e2e/**'],
+    environment: 'jsdom',
+    globals: true,
+    clearMocks: true,
+    mockReset: true,
   },
   server: {
     open: true,
