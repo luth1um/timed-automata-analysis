@@ -18,8 +18,8 @@ env:
   NODE_VERSION: '24'
   BUILD_ARTIFACT_NAME: 'ta-analysis-build-output'
   BUILD_ARTIFACT_FOLDER: 'dist/timed-automata-analysis'
-  PLAYWRIGHT_BLOB_REPORT_PREFIX: 'blob-report'
-  PLAYWRIGHT_BLOB_REPORT_FOLDER: 'blob-report'
+  PLAYWRIGHT_BLOB_REPORT_PREFIX: 'playwright-blob-report'
+  PLAYWRIGHT_BLOB_REPORT_FOLDER: 'playwright-blob-report'
 
 jobs:
   # Check linting and formatting
@@ -186,6 +186,16 @@ jobs:
 
       - name: Merge into GitHub report
         run: pnpm playwright merge-reports --reporter github ${{ env.PLAYWRIGHT_BLOB_REPORT_FOLDER }}
+
+      - name: Merge into HTML report
+        run: pnpm playwright merge-reports --reporter html ${{ env.PLAYWRIGHT_BLOB_REPORT_FOLDER }}
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v7
+        with:
+          name: html-report-attempt-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 14
 
   # Deploy to GitHub Pages
   deploy:
