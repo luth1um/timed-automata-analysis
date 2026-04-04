@@ -143,9 +143,6 @@ jobs:
       - name: Clean-up of the test results
         run: pnpm clean
 
-      - name: Install browsers for Playwright
-        run: pnpm playwright install --with-deps
-
       - name: Run E2E tests
         run: pnpm playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
