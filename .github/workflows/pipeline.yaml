@@ -18,6 +18,8 @@ env:
   NODE_VERSION: '24'
   BUILD_ARTIFACT_NAME: 'ta-analysis-build-output'
   BUILD_ARTIFACT_FOLDER: 'dist/timed-automata-analysis'
+  PLAYWRIGHT_BLOB_REPORT_PREFIX: 'blob-report'
+  PLAYWRIGHT_BLOB_REPORT_FOLDER: 'blob-report'
 
 jobs:
   # Check linting and formatting
@@ -109,11 +111,12 @@ jobs:
 
   # Run end-to-end tests with Playwright
   e2e:
-    needs:
-      - static-analysis
-      - build
-      - test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release') || github.event_name == 'pull_request'
     steps:
       - name: Checkout code
@@ -140,19 +143,56 @@ jobs:
         run: pnpm playwright install --with-deps
 
       - name: Run E2E tests
-        run: pnpm e2e
+        run: pnpm playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
-      - name: Upload Playwright results
-        if: failure()
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-results
-          path: test-results/
-          retention-days: 7
+          name: ${{ env.PLAYWRIGHT_BLOB_REPORT_PREFIX }}-${{ matrix.shardIndex }}
+          path: ${{ env.PLAYWRIGHT_BLOB_REPORT_FOLDER }}
+          retention-days: 1
+
+  # Merge Playwright blob reports into a single report
+  merge-playwright-reports:
+    needs:
+      - e2e
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download Playwright blob reports
+        uses: actions/download-artifact@v8
+        with:
+          path: ${{ env.PLAYWRIGHT_BLOB_REPORT_FOLDER }}
+          pattern: ${{ env.PLAYWRIGHT_BLOB_REPORT_PREFIX }}-*
+          merge-multiple: true
+
+      - name: Merge into GitHub report
+        run: pnpm playwright merge-reports --reporter github ${{ env.PLAYWRIGHT_BLOB_REPORT_FOLDER }}
 
   # Deploy to GitHub Pages
   deploy:
     needs:
+      - static-analysis
+      - build
+      - test
       - e2e
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/release'
