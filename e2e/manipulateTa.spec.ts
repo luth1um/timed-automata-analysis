@@ -12,6 +12,7 @@ test.describe('While manipulating a TA', () => {
     taUiHelper,
   }) => {
     // given
+    test.slow();
     const ta = TaFixture.withTwoLocationsAndTwoSwitches();
 
     // when

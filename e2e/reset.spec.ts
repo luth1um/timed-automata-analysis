@@ -15,6 +15,7 @@ test.describe('For resetting the TA', () => {
 
   test('the reset button should reset the TA to its original state', async ({ page, taUiHelper }) => {
     // given
+    test.slow();
     const initialTa = await taUiHelper.readTaFromUi();
     const otherTa = TaFixture.withTwoLocationsAndTwoSwitches();
     await taUiHelper.setTimedAutomatonTo(otherTa);

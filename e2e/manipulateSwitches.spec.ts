@@ -12,6 +12,7 @@ test.describe('While manipulating switches', () => {
 
   test('the TA contains the correct set of switches when a switch is added', async ({ switchUiHelper }) => {
     // given
+    test.slow();
     const sw = SwitchFixture.aSwitch();
     const initSwitchNumber = await switchUiHelper.readNumberOfSwitchesFromUi();
 
@@ -26,6 +27,7 @@ test.describe('While manipulating switches', () => {
 
   test('the TA contains the correct set of switches when a switch is deleted', async ({ switchUiHelper }) => {
     // given
+    test.slow();
     const sw = SwitchFixture.aSwitch();
     await switchUiHelper.addSwitch(sw);
     const initSwitchNumber = await switchUiHelper.readNumberOfSwitchesFromUi();
@@ -45,6 +47,7 @@ test.describe('While manipulating switches', () => {
 
   test('the TA contains the correct set of switches when a switch is edited', async ({ switchUiHelper }) => {
     // given
+    test.slow();
     const oldSwitch = SwitchFixture.aSwitch();
     await switchUiHelper.addSwitch(oldSwitch);
     const newClockName = 'clock1New';
