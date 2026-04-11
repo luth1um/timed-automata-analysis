@@ -290,7 +290,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
           style={{ marginBottom: '16px' }}
           data-testid={'input-switch-action'}
         />
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2} sx={{ alignItems: 'center' }}>
           <Grid size={{ xs: 6 }}>
             <FormControl fullWidth>
               <InputLabel>{t('switchDialog.input.source')}</InputLabel>
@@ -343,7 +343,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
           </Button>
         )}
         <Divider sx={{ my: 1 }} />
-        <Grid container spacing={1} alignItems="center">
+        <Grid container spacing={1} sx={{ alignItems: 'center' }}>
           {resetGrid}
         </Grid>
         {equalToExistingErrorMsg}

@@ -45,7 +45,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
   return (
     <>
       {clauses.map((row) => (
-        <Grid key={row.id} container spacing={2} alignItems="center">
+        <Grid key={row.id} container spacing={2} sx={{ alignItems: 'center' }}>
           <Grid size={{ xs: 1 }}>
             <IconButton
               disabled={clauses.length <= 1}
