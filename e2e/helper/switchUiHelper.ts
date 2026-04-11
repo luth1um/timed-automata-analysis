@@ -101,7 +101,7 @@ export class SwitchUiHelper {
 
       const textParts = switchText.split(', ');
       const sourceLoc = locations.find((loc) => loc.name === textParts[0])!;
-      const targetLoc = locations.find((loc) => loc.name === textParts[textParts.length - 1])!;
+      const targetLoc = locations.find((loc) => loc.name === textParts.at(-1))!;
       const action = textParts[1];
 
       const remainingElements = textParts.slice(2, textParts.length - 1);
@@ -111,8 +111,8 @@ export class SwitchUiHelper {
       if (remainingElements.length > 0 && !remainingElements[0].startsWith('{')) {
         guard = await this.clockConstraintHelper.parseClockConstraintFromUi(remainingElements[0]);
       }
-      if (remainingElements.length > 0 && remainingElements[remainingElements.length - 1].startsWith('{')) {
-        const resetText = remainingElements[remainingElements.length - 1];
+      if (remainingElements.length > 0 && remainingElements.at(-1)?.startsWith('{')) {
+        const resetText = remainingElements.at(-1)!;
         reset = resetText
           .slice(1, resetText.length - 1)
           .split(',')

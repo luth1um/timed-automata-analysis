@@ -7,12 +7,16 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
+import e18e from '@e18e/eslint-plugin';
+import json from '@eslint/json';
 
 export default defineConfig(
   eslint.configs.recommended,
   tseslint.configs.recommended,
+  e18e.configs.recommended,
   {
     // eslint-plugin-react-hooks
+    files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
       'react-hooks': reactHooks,
     },
@@ -52,6 +56,20 @@ export default defineConfig(
           argsIgnorePattern: '^_',
         },
       ],
+    },
+  },
+  {
+    // e18e dependency check
+    files: ['package.json'],
+    language: 'json/json',
+    plugins: {
+      e18e,
+      json,
+    },
+    extends: ['e18e/recommended'],
+    rules: {
+      // disable core rules that assume JS sourceCode APIs which crash on JSON
+      'no-irregular-whitespace': 'off',
     },
   },
   {
