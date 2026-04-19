@@ -5,15 +5,14 @@ export interface ClausesViewModel {
   state: ClausesState;
   clauses: ClauseViewData[];
   isValidationError: boolean;
-  resetClauses: (viewModel: ClausesViewModel) => void;
-  setClausesFromClockConstraint: (viewModel: ClausesViewModel, clockConstraint?: ClockConstraint) => void;
-  addClause: (viewModel: ClausesViewModel) => void;
-  deleteClause: (viewModel: ClausesViewModel, id: number) => void;
-  changeClause: (viewModel: ClausesViewModel, id: number, field: keyof ClauseViewData, value: string) => void;
+  resetClauses: () => void;
+  setClausesFromClockConstraint: (clockConstraint?: ClockConstraint) => void;
+  addClause: () => void;
+  deleteClause: (id: number) => void;
+  changeClause: (id: number, field: keyof ClauseViewData, value: string) => void;
 }
 
 export enum ClausesState {
-  INIT = 'INIT',
   READY = 'READY',
 }
 
@@ -61,15 +60,12 @@ export function useClausesViewModel(): ClausesViewModel {
     [data.clauses]
   );
 
-  const resetClauses = useCallback(
-    (_viewModel: ClausesViewModel) => {
-      setData((prev) => ({ ...prev, clauses: [emptyClause] }));
-    },
-    [emptyClause]
-  );
+  const resetClauses = useCallback(() => {
+    setData((prev) => ({ ...prev, clauses: [emptyClause] }));
+  }, [emptyClause]);
 
   const setClausesFromClockConstraint = useCallback(
-    (_viewModel: ClausesViewModel, clockConstraint?: ClockConstraint) => {
+    (clockConstraint?: ClockConstraint) => {
       if (!clockConstraint) {
         setData((prev) => ({ ...prev, clauses: [emptyClause] }));
         return;
@@ -93,14 +89,11 @@ export function useClausesViewModel(): ClausesViewModel {
     [emptyClause]
   );
 
-  const addClause = useCallback(
-    (_viewModel: ClausesViewModel) => {
-      setData((prev) => ({ ...prev, clauses: [...prev.clauses, { ...emptyClause, id: Date.now() }] }));
-    },
-    [emptyClause]
-  );
+  const addClause = useCallback(() => {
+    setData((prev) => ({ ...prev, clauses: [...prev.clauses, { ...emptyClause, id: Date.now() }] }));
+  }, [emptyClause]);
 
-  const deleteClause = useCallback((_viewModel: ClausesViewModel, id: number) => {
+  const deleteClause = useCallback((id: number) => {
     setData((prev) => {
       if (prev.clauses.length <= 1) {
         return prev;
@@ -109,35 +102,32 @@ export function useClausesViewModel(): ClausesViewModel {
     });
   }, []);
 
-  const changeClause = useCallback(
-    (_viewModel: ClausesViewModel, id: number, field: keyof ClauseViewData, value: string) => {
-      setData((prev) => {
-        const updatedClauses = prev.clauses.map((row) => {
-          if (row.id === id) {
-            let updatedRow = { ...row, [field]: value };
-            // Update validation flags based on the new value
-            if (field === 'clockValue') {
-              updatedRow.isClockInvalid = !value;
-            }
-            if (field === 'comparisonValue') {
-              updatedRow.isComparisonInvalid = !value;
-            }
-            if (field === 'numberInput') {
-              updatedRow.isNumberInvalid = !value;
-            }
-            // Update for number value if it changed
-            if (field === 'numberInput' && value) {
-              updatedRow = { ...updatedRow, [field]: '' + Math.max(0, parseInt(value, 10)) };
-            }
-            return updatedRow;
+  const changeClause = useCallback((id: number, field: keyof ClauseViewData, value: string) => {
+    setData((prev) => {
+      const updatedClauses = prev.clauses.map((row) => {
+        if (row.id === id) {
+          let updatedRow = { ...row, [field]: value };
+          // Update validation flags based on the new value
+          if (field === 'clockValue') {
+            updatedRow.isClockInvalid = !value;
           }
-          return row;
-        });
-        return { ...prev, clauses: updatedClauses };
+          if (field === 'comparisonValue') {
+            updatedRow.isComparisonInvalid = !value;
+          }
+          if (field === 'numberInput') {
+            updatedRow.isNumberInvalid = !value;
+          }
+          // Update for number value if it changed
+          if (field === 'numberInput' && value) {
+            updatedRow = { ...updatedRow, [field]: '' + Math.max(0, parseInt(value, 10)) };
+          }
+          return updatedRow;
+        }
+        return row;
       });
-    },
-    []
-  );
+      return { ...prev, clauses: updatedClauses };
+    });
+  }, []);
 
   // ===================================================================================================================
 

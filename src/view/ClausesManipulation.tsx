@@ -49,8 +49,8 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
           <Grid size={{ xs: 1 }}>
             <IconButton
               disabled={clauses.length <= 1}
-              onMouseDown={() => deleteClause(viewModel, row.id)}
-              onKeyDown={(e) => executeOnKeyboardClick(e.key, () => deleteClause(viewModel, row.id))}
+              onMouseDown={() => deleteClause(row.id)}
+              onKeyDown={(e) => executeOnKeyboardClick(e.key, () => deleteClause(row.id))}
               data-testid={'button-delete-clause-row-' + row.id}
             >
               <Tooltip title={t('clauses.delete')}>
@@ -64,7 +64,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               <Select
                 value={row.clockValue}
                 label="Clock"
-                onChange={(e) => changeClause(viewModel, row.id, 'clockValue', e.target.value)}
+                onChange={(e) => changeClause(row.id, 'clockValue', e.target.value)}
                 error={row.isClockInvalid}
                 data-testid={'select-clock-row'}
               >
@@ -78,7 +78,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               <Select
                 value={row.comparisonValue}
                 label="Comparison"
-                onChange={(e) => changeClause(viewModel, row.id, 'comparisonValue', e.target.value)}
+                onChange={(e) => changeClause(row.id, 'comparisonValue', e.target.value)}
                 error={row.isComparisonInvalid}
                 data-testid={'select-comparison-row'}
               >
@@ -94,7 +94,7 @@ export const ClausesManipulation: React.FC<ClausesManipulationProps> = (props) =
               fullWidth
               variant="outlined"
               value={row.numberInput}
-              onChange={(e) => changeClause(viewModel, row.id, 'numberInput', e.target.value)}
+              onChange={(e) => changeClause(row.id, 'numberInput', e.target.value)}
               slotProps={{ input: { inputProps: { min: 0 } } }}
               error={row.isNumberInvalid}
               data-testid={'select-comparison-number-row'}

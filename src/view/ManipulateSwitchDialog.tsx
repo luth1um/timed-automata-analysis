@@ -102,10 +102,10 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
       setResetsFromClockArray(switchPrevVersion.reset);
       if (switchPrevVersion.guard) {
         setGuardChecked(true);
-        setClausesFromClockConstraint(clausesViewModel, switchPrevVersion.guard);
+        setClausesFromClockConstraint(switchPrevVersion.guard);
       } else {
         setGuardChecked(false);
-        clausesViewModel.resetClauses(clausesViewModel);
+        clausesViewModel.resetClauses();
       }
     } else {
       // when adding switch: set reset intially to none
@@ -210,7 +210,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
     setTarget('');
     clocks.forEach((c) => handleResetClockChange(c.name, false));
     setGuardChecked(false);
-    clausesViewModel.resetClauses(clausesViewModel);
+    clausesViewModel.resetClauses();
     setJustOpened(true); // for next opening of the dialog
     handleClose();
   };
@@ -232,7 +232,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
       setTarget('');
       clocks.forEach((c) => handleResetClockChange(c.name, false));
       setGuardChecked(false);
-      clausesViewModel.resetClauses(clausesViewModel);
+      clausesViewModel.resetClauses();
     }
     setJustOpened(true); // for next opening of dialog
   };
@@ -334,8 +334,8 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
         {guardChecked && (
           <Button
             variant="outlined"
-            onMouseDown={() => clausesViewModel.addClause(clausesViewModel)}
-            onKeyDown={(e) => executeOnKeyboardClick(e.key, () => clausesViewModel.addClause(clausesViewModel))}
+            onMouseDown={() => clausesViewModel.addClause()}
+            onKeyDown={(e) => executeOnKeyboardClick(e.key, () => clausesViewModel.addClause())}
             sx={{ marginTop: 2 }}
             data-testid={'button-add-clause'}
           >

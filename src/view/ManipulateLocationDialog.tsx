@@ -62,10 +62,10 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
       setInitialLocationChecked(!!locPrevVersion.isInitial);
       if (locPrevVersion.invariant) {
         setInvariantChecked(true);
-        setClausesFromClockConstraint(clausesViewModel, locPrevVersion.invariant);
+        setClausesFromClockConstraint(locPrevVersion.invariant);
       } else {
         setInvariantChecked(false);
-        clausesViewModel.resetClauses(clausesViewModel);
+        clausesViewModel.resetClauses();
       }
     }
     setJustOpened(false);
@@ -102,7 +102,7 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
     // reset entries when dialog is closed
     setName('');
     setInvariantChecked(false);
-    clausesViewModel.resetClauses(clausesViewModel);
+    clausesViewModel.resetClauses();
     setJustOpened(true); // for next opening of the dialog
     handleClose();
   };
@@ -120,7 +120,7 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
       // reset values for next opening of dialog
       setName('');
       setInvariantChecked(false);
-      clausesViewModel.resetClauses(clausesViewModel);
+      clausesViewModel.resetClauses();
     }
     setJustOpened(true); // for next opening of dialog
   };
@@ -168,8 +168,8 @@ export const ManipulateLocationDialog: React.FC<ManipulateLocationDialogProps> =
         {invariantChecked && (
           <Button
             variant="outlined"
-            onMouseDown={() => clausesViewModel.addClause(clausesViewModel)}
-            onKeyDown={(e) => executeOnKeyboardClick(e.key, () => clausesViewModel.addClause(clausesViewModel))}
+            onMouseDown={() => clausesViewModel.addClause()}
+            onKeyDown={(e) => executeOnKeyboardClick(e.key, () => clausesViewModel.addClause())}
             sx={{ marginTop: 2 }}
             data-testid={'button-add-clause'}
           >
