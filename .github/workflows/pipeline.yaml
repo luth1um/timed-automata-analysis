@@ -9,8 +9,7 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
 
 env:
   HUSKY: 0
@@ -206,6 +205,8 @@ jobs:
       - test
       - e2e
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     if: github.ref == 'refs/heads/release'
     concurrency:
       group: deploy_gh_pages
