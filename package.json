@@ -66,12 +66,5 @@
       "eslint --fix --report-unused-disable-directives --max-warnings 0"
     ],
     "*.{css,html,js,cjs,json,md,yaml}": "prettier --write"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "esbuild",
-      "unrs-resolver"
-    ]
   }
 }
