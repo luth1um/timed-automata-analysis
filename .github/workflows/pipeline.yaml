@@ -13,7 +13,7 @@ permissions: {}
 
 env:
   HUSKY: 0
-  PNPM_VERSION: '10'
+  PNPM_VERSION: '11'
   NODE_VERSION: '24'
   BUILD_ARTIFACT_NAME: 'ta-analysis-build-output'
   BUILD_ARTIFACT_FOLDER: 'dist/timed-automata-analysis'
