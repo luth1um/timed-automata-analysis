@@ -33,7 +33,7 @@
     "vis-network": "10.0.3"
   },
   "devDependencies": {
-    "@e18e/eslint-plugin": "0.4.1",
+    "@e18e/eslint-plugin": "0.5.0",
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
     "@playwright/test": "1.60.0",

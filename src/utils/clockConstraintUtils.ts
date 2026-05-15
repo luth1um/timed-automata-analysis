@@ -127,7 +127,7 @@ export function useClockConstraintUtils(): ClockConstraintUtils {
 
       const allInvariants = ta.locations.map<ClockConstraint | undefined>((loc) => loc.invariant);
       const allGuards = ta.switches.map<ClockConstraint | undefined>((sw) => sw.guard);
-      return [...allInvariants, ...allGuards].filter((cc) => constraintUsesClock(clock.name, cc)).length > 0;
+      return [...allInvariants, ...allGuards].some((cc) => constraintUsesClock(clock.name, cc));
     },
     [constraintUsesClock]
   );

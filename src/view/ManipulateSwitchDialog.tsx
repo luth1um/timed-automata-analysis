@@ -146,7 +146,7 @@ export const ManipulateSwitchDialog: React.FC<ManipulateSwitchDialogProps> = (pr
     const newSwitch: Switch = { source: sourceLoc, guard: guard, actionLabel: action, reset: reset, target: targetLoc };
 
     // Does switch already exist? Do not allow another switch being equal to an existing switch
-    return existingSwitches.filter((sw) => switchesEqual(sw, newSwitch)).length > 0;
+    return existingSwitches.some((sw) => switchesEqual(sw, newSwitch));
   }, [
     switchPrevVersion,
     switches,

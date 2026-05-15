@@ -23,7 +23,7 @@ export function useClockUtils(): ClockUtils {
       switches
         .map((sw) => sw.reset)
         .forEach((reset) => {
-          if (reset.filter((r) => r.name === oldClockName).length > 0) {
+          if (reset.some((r) => r.name === oldClockName)) {
             const index = reset.map((r) => r.name).indexOf(oldClockName);
             reset[index] = newClock;
           }
