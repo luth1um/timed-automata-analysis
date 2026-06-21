@@ -1,1 +1,3 @@
 minimumReleaseAge: 10080 # 7 days in minutes
+minimumReleaseAgeExclude:
+  - undici@7.28.0
